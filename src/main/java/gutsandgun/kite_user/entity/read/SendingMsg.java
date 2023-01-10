@@ -29,5 +29,4 @@ public class SendingMsg {
     private String contents;
 
     private Boolean isDeleted = false;
-
 }

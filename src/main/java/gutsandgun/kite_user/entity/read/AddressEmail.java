@@ -25,5 +25,4 @@ public class AddressEmail {
     private String email;
 
     private Boolean isDeleted = false;
-
 }

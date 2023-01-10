@@ -31,5 +31,4 @@ public class SendingEmail {
     private String contents;
 
     private Boolean isDeleted = false;
-
 }

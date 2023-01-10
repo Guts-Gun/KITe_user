@@ -30,5 +30,4 @@ public class Broker {
     private Float failureRate;
 
     private Boolean isDeleted = false;
-
 }

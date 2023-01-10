@@ -25,5 +25,4 @@ public class UserPhone {
     private String phone;
 
     private Boolean isDeleted = false;
-
 }

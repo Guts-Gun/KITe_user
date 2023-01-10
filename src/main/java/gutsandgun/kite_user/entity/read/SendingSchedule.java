@@ -25,5 +25,4 @@ public class SendingSchedule {
     private Long time;
 
     private Boolean isDeleted = false;
-
 }

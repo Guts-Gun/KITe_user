@@ -46,5 +46,4 @@ public class LogSending {
     private Long scheduleTime;
 
     private Boolean isDeleted = false;
-
 }

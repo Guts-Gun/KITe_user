@@ -26,5 +26,4 @@ public class SendingBlock {
     private Long blockTime;
 
     private Boolean isDeleted = false;
-
 }

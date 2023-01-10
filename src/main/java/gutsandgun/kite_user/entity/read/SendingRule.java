@@ -30,5 +30,4 @@ public class SendingRule {
     private Long weight;
 
     private Boolean isDeleted = false;
-
 }

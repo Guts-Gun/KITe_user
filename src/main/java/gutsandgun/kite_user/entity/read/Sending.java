@@ -33,5 +33,4 @@ public class Sending {
     private Long scheduleTime;
 
     private Boolean isDeleted = false;
-
 }

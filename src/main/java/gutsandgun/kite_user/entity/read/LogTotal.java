@@ -44,5 +44,4 @@ public class LogTotal {
     private String failure_cause;
 
     private Boolean isDeleted = false;
-
 }

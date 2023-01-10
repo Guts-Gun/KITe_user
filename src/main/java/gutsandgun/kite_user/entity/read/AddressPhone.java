@@ -25,5 +25,4 @@ public class AddressPhone {
     private String phone;
 
     private Boolean isDeleted = false;
-
 }

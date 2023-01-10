@@ -25,5 +25,4 @@ public class UserAddress {
     private String name;
 
     private Boolean isDeleted = false;
-
 }

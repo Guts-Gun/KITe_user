@@ -26,5 +26,4 @@ public class AddressGroup {
     private Long userGroupId;
 
     private Boolean isDeleted = false;
-
 }

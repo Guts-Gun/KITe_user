@@ -32,5 +32,4 @@ public class LogFailure {
     private String failure_cause;
 
     private Boolean isDeleted = false;
-
 }
