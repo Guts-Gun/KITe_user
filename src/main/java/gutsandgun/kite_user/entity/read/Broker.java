@@ -10,7 +10,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql= "UPDATE Broker SET is_deleted=true WHERE id = ?")
+@SQLDelete(sql= "UPDATE broker SET is_deleted=true WHERE id = ?")
 @Table(name="broker")
 public class Broker {
 
