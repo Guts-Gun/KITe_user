@@ -24,5 +24,5 @@ public class UserGroup {
 
     private String groupName;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }

@@ -25,5 +25,5 @@ public class AddressGroup {
     @Column(name = "fk_user_group_id")
     private String userGroupId;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }

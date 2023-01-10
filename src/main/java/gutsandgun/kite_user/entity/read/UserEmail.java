@@ -24,5 +24,5 @@ public class UserEmail {
 
     private String email;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }
