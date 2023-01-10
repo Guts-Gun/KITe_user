@@ -10,19 +10,20 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql= "UPDATE address_phone SET is_deleted=true WHERE id = ?")
-@Table(name="address_phone")
-public class AddressPhone {
+@SQLDelete(sql= "UPDATE sending_block SET is_deleted=true WHERE id = ?")
+@Table(name="sending_block")
+public class SendingBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "fk_user_address_id")
-    private String userAddressId;
+    private String sender;
 
-    private String phone;
+    private String receiver;
+
+    private Long blockTime;
 
     private Boolean isDeleted = false;
 

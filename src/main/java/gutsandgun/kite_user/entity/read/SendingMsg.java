@@ -20,13 +20,14 @@ public class SendingMsg {
     private Long id;
 
     @Column(name = "fk_sending_id")
-    private String sendingId;
+    private Long sendingId;
 
-    private String sending;
+    private String sender;
 
     private String receiver;
 
     private String contents;
 
     private Boolean isDeleted = false;
+
 }

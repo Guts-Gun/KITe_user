@@ -20,10 +20,11 @@ public class AddressGroup {
     private Long id;
 
     @Column(name = "fk_user_address_id")
-    private String userAddressId;
+    private Long userAddressId;
 
     @Column(name = "fk_user_group_id")
-    private String userGroupId;
+    private Long userGroupId;
 
     private Boolean isDeleted = false;
+
 }

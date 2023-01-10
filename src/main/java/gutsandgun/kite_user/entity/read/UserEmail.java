@@ -20,9 +20,10 @@ public class UserEmail {
     private Long id;
 
     @Column(name = "fk_user_id")
-    private String userId;
+    private Long userId;
 
     private String email;
 
     private Boolean isDeleted = false;
+
 }

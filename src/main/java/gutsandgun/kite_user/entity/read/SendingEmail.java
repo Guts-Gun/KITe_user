@@ -20,9 +20,9 @@ public class SendingEmail {
     private Long id;
 
     @Column(name = "fk_sending_id")
-    private String sendingId;
+    private Long sendingId;
 
-    private String sending;
+    private String sender;
 
     private String receiver;
 
@@ -31,4 +31,5 @@ public class SendingEmail {
     private String contents;
 
     private Boolean isDeleted = false;
+
 }

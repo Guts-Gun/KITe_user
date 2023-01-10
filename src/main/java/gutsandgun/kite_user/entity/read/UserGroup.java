@@ -20,9 +20,10 @@ public class UserGroup {
     private Long id;
 
     @Column(name = "fk_user_id")
-    private String userId;
+    private Long userId;
 
     private String groupName;
 
     private Boolean isDeleted = false;
+
 }
