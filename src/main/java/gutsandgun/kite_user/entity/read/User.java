@@ -8,10 +8,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="")
+@Table(name="user")
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="grid_id")
+    @Column(name="id")
     private Long id;
+
+    @Column(name="name")
+    private String name;
+
+    @Column(name="name")
+    private String email;
 }
