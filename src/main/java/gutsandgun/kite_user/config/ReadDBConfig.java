@@ -30,9 +30,6 @@ import java.util.Map;
 )
 public class ReadDBConfig {
     @Autowired
-    private Environment env;
-
-    @Autowired
     private JpaProperties jpaProperties;
     @Autowired
     private HibernateProperties hibernateProperties;
@@ -50,16 +47,6 @@ public class ReadDBConfig {
 
         //Hibernate 설정
         Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
-        //Hibernate 설정
-//        HashMap<String, Object> properties = new HashMap<>();
-//        properties.put("hibernate.hbm2ddl.auto",env.getProperty("spring.jpa.hibernate.ddl-auto"));
-//        properties.put("hibernate.dialect",env.getProperty("spring.jpa.properties.hibernate.dialect"));
-//        properties.put("hibernate.dialect.storage_engine",env.getProperty("spring.jpa.properties.hibernate.storage_engine"));
-//        properties.put("hibernate.format_sql",env.getProperty("spring.jpa.properties.hibernate.format_sql"));
-//        properties.put("hibernate.show-sql",env.getProperty("spring.jpa.properties.hibernate.show-sql"));
-//        properties.put("hibernate.generate-ddl",env.getProperty("spring.jpa.properties.hibernate.generate-ddl"));
-//        properties.put("hibernate.naming.physical-strategy", env.getProperty("spring.jpa.hibernate.naming.physical-strategy"));
-//        properties.put("hibernate.naming.implicit_naming_strategy", env.getProperty("spring.jpa.hibernate.naming.implicit-strategy"));
         System.out.println(properties);
         em.setJpaPropertyMap(properties);
         return em;
