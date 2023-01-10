@@ -1,6 +1,5 @@
 package gutsandgun.kite_user.entity.read;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,15 +10,17 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql= "UPDATE user SET is_deleted=true WHERE id = ?")
-@Table(name="user")
-public class User {
+@SQLDelete(sql= "UPDATE address_email SET is_deleted=true WHERE id = ?")
+@Table(name="address_email")
+public class AddressEmail {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    private String name;
+    @Column(name = "fk_user_address_id")
+    private String userAddressId;
 
     private String email;
 
