@@ -26,5 +26,4 @@ public class User {
     private String email;
 
     @Column(name="is_deleted")
-    private Boolean isDeleted;
-}
+ 
