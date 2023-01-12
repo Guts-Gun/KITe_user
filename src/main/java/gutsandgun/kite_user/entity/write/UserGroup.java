@@ -25,4 +25,13 @@ public class UserGroup {
     private String groupName;
 
     private Boolean isDeleted = false;
+
+
+    @Builder
+    public UserGroup(Long userId, String groupName){
+        this.userId = userId;
+        this.groupName = groupName;
+    }
+
+
 }
