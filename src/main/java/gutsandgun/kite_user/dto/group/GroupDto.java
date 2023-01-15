@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.Group;
+package gutsandgun.kite_user.dto.group;
 
 import gutsandgun.kite_user.entity.write.UserGroup;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package gutsandgun.kite_user.controller;
 
-import gutsandgun.kite_user.dto.Group.GroupDto;
+import gutsandgun.kite_user.dto.group.GroupDto;
 import gutsandgun.kite_user.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ public class GroupController {
     @Autowired
     GroupService groupService;
 
-
     //read
     @GetMapping("")
     public List<GroupDto> getGroupList(){
@@ -25,22 +24,21 @@ public class GroupController {
         return(groupService.getUserGroupById(groupId));
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public Long createGroup(@RequestBody GroupDto groupDto){
         return(groupService.createUserGroup(groupDto));
     }
 
     //create
-    @PostMapping("/{groupId}")
-    public Long copyGroup(@PathVariable Long groupId){
-        return(groupService.copyUserGroup(groupId));
+    @PostMapping("/copy")
+    public Long copyGroup(@RequestBody GroupDto groupDto){
+        return(groupService.copyUserGroup(groupDto));
     }
 
-
     //update
-    @PutMapping("/{groupId}")
-    public Long changeGroup(@PathVariable Long groupId,@RequestBody GroupDto groupDto){
-        return(groupService.changeUserGroup(groupId,groupDto));
+    @PutMapping("")
+    public Long changeGroup(@RequestBody GroupDto groupDto){
+        return(groupService.changeUserGroup(groupDto));
     }
 
     //delete -> body로 처리

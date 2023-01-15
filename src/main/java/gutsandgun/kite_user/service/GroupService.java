@@ -1,6 +1,6 @@
 package gutsandgun.kite_user.service;
 
-import gutsandgun.kite_user.dto.Group.GroupDto;
+import gutsandgun.kite_user.dto.group.GroupDto;
 import gutsandgun.kite_user.entity.write.UserGroup;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
@@ -32,19 +32,19 @@ public class GroupService {
         return userGroupSave.getId();
     }
     //예외처리
-    public Long copyUserGroup(Long id){
-        UserGroup userGroup = writeUserGroupRepository.findById(id).get();
+    public Long copyUserGroup(GroupDto groupDto){
+        UserGroup userGroup = writeUserGroupRepository.findById(groupDto.getId()).get();
         UserGroup copyGroup = userGroup.builder()
                 .userId(userGroup.getUserId())
-                .groupName(userGroup.getGroupName())
+                .groupName(groupDto.getGroupName())
                 .build();
         UserGroup userGroupSave = writeUserGroupRepository.save(copyGroup);
         return userGroupSave.getId();
     }
 
-    public Long changeUserGroup(Long id,GroupDto dto){
-        UserGroup userGroup = writeUserGroupRepository.findById(id).get();
-        userGroup.setGroupName(dto.getGroupName());
+    public Long changeUserGroup(GroupDto groupDto){
+        UserGroup userGroup = writeUserGroupRepository.findById(groupDto.getId()).get();
+        userGroup.setGroupName(groupDto.getGroupName());
         UserGroup userGroupSave = writeUserGroupRepository.save(userGroup);
         return userGroupSave.getId();
     }
