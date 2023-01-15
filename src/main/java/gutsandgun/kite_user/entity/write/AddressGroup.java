@@ -1,7 +1,9 @@
 package gutsandgun.kite_user.entity.write;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE address_group SET is_deleted=true WHERE id = ?")
 @Table(name="address_group")
+@NoArgsConstructor
 public class AddressGroup {
 
     @Id
@@ -26,4 +29,12 @@ public class AddressGroup {
     private Long userGroupId;
 
     private Boolean isDeleted = false;
+
+    @Builder
+    public AddressGroup(Long userAddressId,Long userGroupId){
+        this.userAddressId = userAddressId;
+        this.userGroupId = userGroupId;
+    }
+
+
 }

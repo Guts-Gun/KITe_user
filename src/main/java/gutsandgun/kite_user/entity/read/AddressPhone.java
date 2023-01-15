@@ -20,7 +20,7 @@ public class AddressPhone {
     private Long id;
 
     @Column(name = "fk_user_address_id")
-    private String userAddressId;
+    private Long userAddressId;
 
     private String phone;
 

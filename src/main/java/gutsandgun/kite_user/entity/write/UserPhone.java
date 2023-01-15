@@ -2,6 +2,7 @@ package gutsandgun.kite_user.entity.write;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE user_phone SET is_deleted=true WHERE id = ?")
 @Table(name="user_phone")
+@NoArgsConstructor
 public class UserPhone {
 
     @Id
