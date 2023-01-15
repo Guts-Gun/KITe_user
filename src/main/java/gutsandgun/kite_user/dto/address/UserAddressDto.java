@@ -1,7 +1,6 @@
-package gutsandgun.kite_user.dto.Address;
+package gutsandgun.kite_user.dto.address;
 
 import gutsandgun.kite_user.entity.write.UserAddress;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;

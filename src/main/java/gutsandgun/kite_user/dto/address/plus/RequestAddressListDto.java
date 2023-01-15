@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.Address.plus;
+package gutsandgun.kite_user.dto.address.plus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

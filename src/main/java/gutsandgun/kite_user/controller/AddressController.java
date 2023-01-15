@@ -1,12 +1,10 @@
 package gutsandgun.kite_user.controller;
 
-import gutsandgun.kite_user.dto.Address.plus.RequestAddressDto;
-import gutsandgun.kite_user.dto.Address.plus.RequestAddressListDto;
+import gutsandgun.kite_user.dto.address.plus.RequestAddressDto;
+import gutsandgun.kite_user.dto.address.plus.RequestAddressListDto;
 import gutsandgun.kite_user.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user/address")

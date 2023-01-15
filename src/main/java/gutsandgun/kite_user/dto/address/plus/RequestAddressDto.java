@@ -1,11 +1,9 @@
-package gutsandgun.kite_user.dto.Address.plus;
+package gutsandgun.kite_user.dto.address.plus;
 
 import gutsandgun.kite_user.entity.write.AddressEmail;
 import gutsandgun.kite_user.entity.write.AddressPhone;
 import gutsandgun.kite_user.entity.write.UserAddress;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

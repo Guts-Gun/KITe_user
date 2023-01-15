@@ -1,18 +1,14 @@
 package gutsandgun.kite_user.service;
 
-import gutsandgun.kite_user.dto.Address.plus.RequestAddressDto;
-import gutsandgun.kite_user.dto.Address.plus.RequestAddressListDto;
+import gutsandgun.kite_user.dto.address.plus.RequestAddressDto;
+import gutsandgun.kite_user.dto.address.plus.RequestAddressListDto;
 import gutsandgun.kite_user.entity.write.AddressGroup;
-import gutsandgun.kite_user.entity.write.AddressPhone;
 import gutsandgun.kite_user.entity.write.UserAddress;
 import gutsandgun.kite_user.entity.write.UserGroup;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
