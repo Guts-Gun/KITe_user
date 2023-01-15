@@ -1,8 +1,7 @@
 package gutsandgun.kite_user.entity.write;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -12,8 +11,8 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE user_group SET is_deleted=true WHERE id = ?")
 @Table(name="user_group")
+@NoArgsConstructor
 public class UserGroup {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

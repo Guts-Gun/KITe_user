@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.group;
+package gutsandgun.kite_user.dto.Group;
 
 import gutsandgun.kite_user.entity.write.UserGroup;
 import lombok.AllArgsConstructor;
@@ -25,5 +25,4 @@ public class GroupDto {
                 .groupName(groupName)
                 .build();
     }
-
 }

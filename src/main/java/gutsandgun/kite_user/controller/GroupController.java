@@ -1,6 +1,6 @@
 package gutsandgun.kite_user.controller;
 
-import gutsandgun.kite_user.dto.group.GroupDto;
+import gutsandgun.kite_user.dto.Group.GroupDto;
 import gutsandgun.kite_user.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/group")
+@RequestMapping("/user/group")
 public class GroupController {
     @Autowired
     GroupService groupService;
@@ -25,9 +25,8 @@ public class GroupController {
         return(groupService.getUserGroupById(groupId));
     }
 
-
     @PostMapping("")
-    public Long makeGroup(@RequestBody GroupDto groupDto){
+    public Long createGroup(@RequestBody GroupDto groupDto){
         return(groupService.createUserGroup(groupDto));
     }
 
@@ -37,17 +36,19 @@ public class GroupController {
         return(groupService.copyUserGroup(groupId));
     }
 
+
     //update
     @PutMapping("/{groupId}")
     public Long changeGroup(@PathVariable Long groupId,@RequestBody GroupDto groupDto){
         return(groupService.changeUserGroup(groupId,groupDto));
     }
 
-    //delete
+    //delete -> body로 처리
     @DeleteMapping("/")
-    public String deleteGroupList(){
+    public String deleteGroupList(@RequestBody String value){
         return("");
     }
+
 
     @DeleteMapping("/{groupId}")
     public String deleteGroup(@PathVariable Long groupId){

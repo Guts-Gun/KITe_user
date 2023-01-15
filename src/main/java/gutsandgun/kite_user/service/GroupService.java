@@ -1,7 +1,6 @@
 package gutsandgun.kite_user.service;
 
-import gutsandgun.kite_user.dto.group.GroupDto;
-import gutsandgun.kite_user.entity.write.User;
+import gutsandgun.kite_user.dto.Group.GroupDto;
 import gutsandgun.kite_user.entity.write.UserGroup;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
@@ -10,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
