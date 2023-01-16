@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.address.plus;
+package gutsandgun.kite_user.dto.addr;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Getter
-public class RequestAddressListDto{
+public class RequestAddressListDto {
     private Long userId;
     private Long groupId;
-    private List<RequestAddressDto> requestAddressDtoList;
+    private List<RequestAddressDto> requestAddressList;
 }

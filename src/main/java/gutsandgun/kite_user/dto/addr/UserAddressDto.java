@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.address;
+package gutsandgun.kite_user.dto.addr;
 
 import gutsandgun.kite_user.entity.write.UserAddress;
 import lombok.Data;

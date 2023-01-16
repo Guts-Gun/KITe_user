@@ -1,4 +1,4 @@
-package gutsandgun.kite_user.dto.address.plus;
+package gutsandgun.kite_user.dto.addr;
 
 import gutsandgun.kite_user.entity.write.AddressEmail;
 import gutsandgun.kite_user.entity.write.AddressPhone;

@@ -1,7 +1,9 @@
 package gutsandgun.kite_user.controller;
 
-import gutsandgun.kite_user.dto.address.plus.RequestAddressDto;
-import gutsandgun.kite_user.dto.address.plus.RequestAddressListDto;
+
+
+import gutsandgun.kite_user.dto.addr.RequestAddressDto;
+import gutsandgun.kite_user.dto.addr.RequestAddressListDto;
 import gutsandgun.kite_user.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +31,16 @@ public class AddressController {
   */
     @PostMapping("")
     public void createAddress(@RequestBody RequestAddressDto requestAddressDto){
-        addressService.createUserAddressOne(requestAddressDto);
+        Long userId = 1L;
+        addressService.createUserAddressOne(userId,requestAddressDto);
     }
     @PostMapping("/list")
     public void createAddressList(@RequestBody RequestAddressListDto requestAddressDtoList){
-        addressService.createUserAddressList(requestAddressDtoList);
+        Long userId = 1L;
+        addressService.createUserAddressList(userId,requestAddressDtoList);
     }
 
-/*    @PutMapping("/{groupId}")
+/*  @PutMapping("/{groupId}")
     public Long moveGroup() {
 
     }

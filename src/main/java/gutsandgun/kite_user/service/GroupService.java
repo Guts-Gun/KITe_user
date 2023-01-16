@@ -31,6 +31,8 @@ public class GroupService {
         UserGroup userGroupSave = writeUserGroupRepository.save(userGroup);
         return userGroupSave.getId();
     }
+
+    //여기부터 주소록 관리
     //예외처리
     public Long copyUserGroup(GroupDto groupDto){
         UserGroup userGroup = writeUserGroupRepository.findById(groupDto.getId()).get();
