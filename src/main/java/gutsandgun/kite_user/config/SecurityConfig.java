@@ -1,6 +1,7 @@
 package gutsandgun.kite_user.config;
 
 import gutsandgun.kite_user.controller.UserController;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -30,11 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
     @Bean
     public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
 
