@@ -12,7 +12,6 @@ import java.util.List;
 @ToString
 @Getter
 public class RequestAddressListDto {
-    private Long userId;
     private Long groupId;
     private List<RequestAddressDto> requestAddressList;
 }

@@ -10,5 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WriteAddressGroupRepository extends JpaRepository<AddressGroup, Long>, JpaSpecificationExecutor<AddressGroup> {
+
+    List<AddressGroup> findByUserAddressId(Long userAddressId);
     Optional<AddressGroup> findByUserAddressIdAndUserGroupId(Long userAddressId, Long userGroupId);
 }

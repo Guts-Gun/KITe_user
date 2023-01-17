@@ -8,6 +8,8 @@ import gutsandgun.kite_user.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user/address")
 public class AddressController {
@@ -40,20 +42,14 @@ public class AddressController {
         addressService.createUserAddressList(userId,requestAddressDtoList);
     }
 
-/*  @PutMapping("/{groupId}")
-    public Long moveGroup() {
 
+
+    @DeleteMapping("")
+    public void deleteAddressList(@RequestBody List<Long> deleteList){
+        Long userId = 1L;
+        addressService.deleteUserAddress(userId,deleteList);
     }
 
-    @DeleteMapping("/")
-    public String deleteAddressList(){
-        return("");
-    }
-
-    @DeleteMapping("/")
-    public String deleteAddress(){
-        return("?");
-    }*/
 
 
 

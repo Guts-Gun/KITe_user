@@ -17,93 +17,170 @@ import java.util.Optional;
 public class AddressService {
     //group
     private final ReadUserGroupRepository readUserGroupRepository;
-    private final WriteUserGroupRepository writeUserGroupRepository;
+    private final WriteUserGroupRepository wUserGroupRepository;
 
     //group-adress
     private final ReadAddressGroupRepository readAddressGroupRepository;
-    private final WriteAddressGroupRepository writeAddressGroupRepository;
+    private final WriteAddressGroupRepository wAddressGroupRepository;
 
     //address
     private final ReadUserAddressRepository readUserAddressRepository;
-    private final WriteUserAddressRepository writeUserAddressRepository;
+    private final WriteUserAddressRepository wUserAddressRepository;
 
     private final ReadAddressPhoneRepository readAddressPhoneRepository;
-    private final WriteAddressPhoneRepository writeAddressPhoneRepository;
+    private final WriteAddressPhoneRepository wAddressPhoneRepository;
 
     private final ReadAddressEmailRepository readAddressEmailRepository;
-    private final WriteAddressEmailRepository writeAddressEmailRepository;
+    private final WriteAddressEmailRepository wAddressEmailRepository;
+
 
 
     public void createUserAddressOne(Long userId,RequestAddressDto requestAddressDto){
-        //1.그룹 확인
-        //1-1.그룹 확인
-        UserGroup userGroup= writeUserGroupRepository.findById(requestAddressDto.getGroupId()).get();
-        //1-2.그룹 userId확인
-        if(userGroup.getUserId()==userId){
+        //1.그룹-유저 확인
+        Optional<UserGroup> userGroup= wUserGroupRepository.findByIdAndUserId(requestAddressDto.getGroupId(),userId);
+        if(userGroup.isPresent() || requestAddressDto.getGroupId()==-1){
+            System.out.println("group enable");
             //2.생성.
             createUserAddress(userId,requestAddressDto);
         }
     }
-    public void createUserAddressList(Long userId,RequestAddressListDto requestAddressDtoList){
-        //1.그룹 확인
-        //1-1.그룹 확인
-        UserGroup userGroup= writeUserGroupRepository.findById(requestAddressDtoList.getGroupId()).get();
-        //1-2.그룹 userId확인
-        if(userGroup.getUserId()==userId){
-            //2. dto에 userid/group id 세팅
-            requestAddressDtoList.getRequestAddressList().forEach(d->{
-                d.setUserId(1L);
-                d.setGroupId(userGroup.getId());
+    public void createUserAddressList(Long userId,RequestAddressListDto requestAddressListDto){
+        //1.그룹-유저 확인
+        Optional<UserGroup> userGroup= wUserGroupRepository.findByIdAndUserId(requestAddressListDto.getGroupId(),userId);
+        if(userGroup.isPresent() || requestAddressListDto.getGroupId()==-1){
+            System.out.println("group enable");
+            //2. dto에 group id 세팅
+            requestAddressListDto.getRequestAddressList().forEach(d->{
+                d.setGroupId(userGroup.get().getId());
             });
             //3.생성
-            requestAddressDtoList.getRequestAddressList().forEach(d->createUserAddress(userId,d));
+            requestAddressListDto.getRequestAddressList().forEach(d->createUserAddress(userId,d));
         }
     }
         private void createUserAddress(Long userId,RequestAddressDto requestAddressDto){
-            //0.dto세팅(user세팅)
+            //0.dto세팅
             requestAddressDto.setUserId(userId);
+
             //1.주소록 존재확인(유저/이름/전화번호/이메일)
             Optional<Long> id =  Optional.empty();
             //유저/이름
-            List<UserAddress> addressList = writeUserAddressRepository.findByUserIdAndName(userId,requestAddressDto.getName());
+            List<UserAddress> addressList = wUserAddressRepository.findByUserIdAndName(userId,requestAddressDto.getName());
             for(UserAddress a:addressList){
                 System.out.println("user/name");
-                //전화번호
-                Optional<AddressPhone> phone = writeAddressPhoneRepository.findByIdAndPhone(a.getId(),requestAddressDto.getPhone());
-                if(phone.isPresent()) {
-                    System.out.println("phone");
-                    //이메일
-                    Optional<AddressEmail> email = writeAddressEmailRepository.findByIdAndEmail(phone.get().getId(),requestAddressDto.getEmail());
-                    if(email.isPresent()) {
-                        System.out.println("email");
-                        id = Optional.ofNullable(email.get().getId());
-                        System.out.println(id);
+                //1.1.이메일/전화번호 모두 존재
+                if(requestAddressDto.getPhone()!=null && requestAddressDto.getEmail()!=null){
+                    //전화번호
+                    Optional<AddressPhone> phone = wAddressPhoneRepository.findByUserAddressIdAndPhone(a.getId(),requestAddressDto.getPhone());
+                    if(phone.isPresent()) {
+                        System.out.println("phone");
+                        //이메일
+                        Optional<AddressEmail> email = wAddressEmailRepository.findByUserAddressIdAndEmail(phone.get().getId(),requestAddressDto.getEmail());
+                        if(email.isPresent()) {
+                            System.out.println("email");
+                            id = Optional.ofNullable(email.get().getId());
+                        }
                     }
                 }
-            }
+                //1.2.전화번호만 존재
+                else if(requestAddressDto.getPhone()!=null){
+                    //전화번호
+                    Optional<AddressPhone> phone = wAddressPhoneRepository.findByUserAddressIdAndPhone(a.getId(),requestAddressDto.getPhone());
+                    if(phone.isPresent() && !wAddressEmailRepository.findByUserAddressId(a.getId()).isPresent()) {
+                        id = Optional.ofNullable(a.getId());
+                    }
+                }
+                //1.3.이메일만 존재
+                else if(requestAddressDto.getEmail()!=null){
+                    //이메일
+                    Optional<AddressEmail> email = wAddressEmailRepository.findByUserAddressIdAndEmail(a.getId(),requestAddressDto.getEmail());
+                    if(email.isPresent() && !wAddressPhoneRepository.findByUserAddressId(a.getId()).isPresent()) {
+                        id = Optional.ofNullable(a.getId());
+                    }
+                }
 
+            }
             //2-1.주소록 없을 때
             if(!id.isPresent()){
                 //2-1-1. 주소록 생성
-                UserAddress userAddress = writeUserAddressRepository.save(requestAddressDto.toUserAddressEntity());
+                UserAddress userAddress = wUserAddressRepository.save(requestAddressDto.toUserAddressEntity());
                 //2-1-2. 주소록-전화번호 생성
-                writeAddressPhoneRepository.save(requestAddressDto.toUserAddressPhoneEntity(userAddress.getId()));
+                if(requestAddressDto.getPhone()!=null){
+                    wAddressPhoneRepository.save(requestAddressDto.toUserAddressPhoneEntity(userAddress.getId()));
+                }
                 //2-1-3. 주소록-이메일 생성
-                writeAddressEmailRepository.save(requestAddressDto.toUserAddressEmailEntity(userAddress.getId()));
-                writeAddressGroupRepository.save(AddressGroup.builder()
-                        .userAddressId(userAddress.getId())
-                        .userGroupId(requestAddressDto.getGroupId())
-                        .build());
-            }
-            //2-2.주소록 존재할 때
-            else{
-                if(!writeAddressGroupRepository.findByUserAddressIdAndUserGroupId(id.get(),requestAddressDto.getGroupId()).isPresent()) {
-                    writeAddressGroupRepository.save(AddressGroup.builder()
-                            .userAddressId(id.get())
+                if(requestAddressDto.getEmail()!=null){
+                    wAddressEmailRepository.save(requestAddressDto.toUserAddressEmailEntity(userAddress.getId()));
+                }
+
+                //2-1-4. 그룹 매핑(-1은 그룹지정x)
+                if(requestAddressDto.getGroupId()!=-1L){
+                    wAddressGroupRepository.save(AddressGroup.builder()
+                            .userAddressId(userAddress.getId())
                             .userGroupId(requestAddressDto.getGroupId())
                             .build());
                 }
             }
+            //2-2.주소록 존재할 때
+            else{
+                System.out.println(id.get());
+                //2-2.그룹 매핑(-1은 그룹지정x)
+                if(requestAddressDto.getGroupId()!=-1L) {
+                    if (!wAddressGroupRepository.findByUserAddressIdAndUserGroupId(id.get(), requestAddressDto.getGroupId()).isPresent()) {
+                        wAddressGroupRepository.save(AddressGroup.builder()
+                                .userAddressId(id.get())
+                                .userGroupId(requestAddressDto.getGroupId())
+                                .build());
+                    }
+                }
+            }
 
         }
+
+    public void deleteUserAddress(Long userId,List<Long> deleteIdList){
+        deleteIdList.stream().forEach(d->{
+            //주소록 삭제
+            Optional<UserAddress> userAddress = wUserAddressRepository.findByIdAndUserId(d,userId);
+            if(userAddress.isPresent()){
+                UserAddress value = userAddress.get();
+                value.setIsDeleted(true);
+                wUserAddressRepository.save(value);
+
+
+                //주소록 id
+                Long userAddressId = userAddress.get().getId();
+
+                //전화번호 삭제
+                Optional<AddressPhone> addressPhone = wAddressPhoneRepository.findByUserAddressId(userAddressId);
+                if(addressPhone.isPresent()){
+                    AddressPhone v = addressPhone.get();
+                    v.setIsDeleted(true);
+                    wAddressPhoneRepository.save(v);
+                }
+
+                //이메일 삭제
+                Optional<AddressEmail> addressEmail = wAddressEmailRepository.findByUserAddressId(userAddressId);
+                if(addressEmail.isPresent()){
+                    AddressEmail v = addressEmail.get();
+                    v.setIsDeleted(true);
+                    wAddressEmailRepository.save(v);
+                }
+
+                //그룹 관계 삭제
+                List<AddressGroup> addressGroupList = wAddressGroupRepository.findByUserAddressId(userAddressId);
+                addressGroupList.stream().forEach(ag->{
+                    AddressGroup addressGroup = ag;
+                    addressGroup.setIsDeleted(true);
+                    wAddressGroupRepository.save(addressGroup);
+                });
+
+            }
+
+        });
+
+    }
+
+
+
+
+
 }

@@ -14,6 +14,4 @@ public class UserAddressDto implements Serializable {
     private final Long userId;
     private final String name;
     private final Boolean isDeleted;
-
-
 }

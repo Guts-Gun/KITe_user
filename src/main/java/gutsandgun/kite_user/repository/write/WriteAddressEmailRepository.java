@@ -10,5 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WriteAddressEmailRepository extends JpaRepository<AddressEmail, Long>, JpaSpecificationExecutor<AddressEmail> {
-    Optional<AddressEmail> findByIdAndEmail(Long id, String email);
+    Optional<AddressEmail> findByUserAddressId(Long userAddressId);
+    Optional<AddressEmail> findByUserAddressIdAndEmail(Long userAddressId, String email);
 }
