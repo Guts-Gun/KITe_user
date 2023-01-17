@@ -51,9 +51,6 @@ public class UserService implements UserServiceInterface {
             if(userPhoneDto.getName()!=null){
                 userPhone.setName(userPhoneDto.getName());
             }
-            if(userPhoneDto.getPhone()!=null){
-                userPhone.setPhone(userPhoneDto.getPhone());
-            }
             userPhone.setModId(userId);
             return wUserPhoneRepository.save(userPhone).getId();
         }
