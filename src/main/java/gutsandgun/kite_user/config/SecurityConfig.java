@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers("**").permitAll()
                 .and().oauth2ResourceServer()
