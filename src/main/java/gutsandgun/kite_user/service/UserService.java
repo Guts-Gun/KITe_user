@@ -2,6 +2,7 @@ package gutsandgun.kite_user.service;
 
 import gutsandgun.kite_user.dto.user.UserEmailDto;
 import gutsandgun.kite_user.dto.user.UserPhoneDto;
+import gutsandgun.kite_user.entity.write.UserEmail;
 import gutsandgun.kite_user.entity.write.UserPhone;
 import gutsandgun.kite_user.repository.write.WriteUserEmailRepository;
 import gutsandgun.kite_user.repository.write.WriteUserPhoneRepository;
@@ -77,21 +78,50 @@ public class UserService implements UserServiceInterface {
     WriteUserEmailRepository wUserEmailRepository;
     @Override
     public List<UserEmailDto> readUserEmail(Long userId) {
-        return null;
+        return wUserEmailRepository.findByUserId(userId).stream().map(m->new UserEmailDto(m)).collect(Collectors.toList());
     }
-
     @Override
     public Long createUserEmail(Long userId, UserEmailDto userEmailDto) {
-        return null;
+        if(wUserEmailRepository.countByUserId(userId)<10){
+            UserEmail userEmail = userEmailDto.toEntity();
+            Optional<UserEmail> check = wUserEmailRepository.findByUserIdAndNameOrEmail(userId, userEmailDto.getName(), userEmailDto.getEmail());
+            log.info(String.valueOf(check.isPresent()));
+            return (!check.isPresent())? wUserEmailRepository.save(userEmail).getId() : null;
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
     public Long updateUserEmail(Long userId, UserEmailDto userEmailDto) {
-        return null;
+
+        Optional<UserEmail> nameEmailCheck = wUserEmailRepository.findByUserIdAndNameOrEmail(userId, userEmailDto.getName(), userEmailDto.getEmail());
+        Optional<UserEmail> idCheck = wUserEmailRepository.findById(userEmailDto.getId());
+
+        log.info(String.valueOf(nameEmailCheck.isPresent())+" "+String.valueOf(idCheck.isPresent()));
+        if(!nameEmailCheck.isPresent() & idCheck.isPresent()){
+            UserEmail userEmail = idCheck.get();
+            if(userEmailDto.getName()!=null){
+                userEmail.setName(userEmailDto.getName());
+            }
+            userEmail.setModId(userId);
+            return wUserEmailRepository.save(userEmail).getId();
+        }
+        else return null;
     }
 
     @Override
-    public Long deleteUserEmailList(Long userId, List<UserEmailDto> userEmailDtoList) {
-        return null;
+    public List<Long> deleteUserEmailList(Long userId, List<UserEmailDto> userEmailList) {
+        return userEmailList.stream().map(d->{
+            Optional<UserEmail> check = wUserEmailRepository.findById(d.getId());
+            log.info(String.valueOf(check.isPresent()));
+            if(check.isPresent()){
+                UserEmail userEmail = check.get();
+                userEmail.setIsDeleted(true);
+                return wUserEmailRepository.save(userEmail).getId();
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
 }
