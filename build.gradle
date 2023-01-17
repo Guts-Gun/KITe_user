@@ -18,11 +18,22 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('keyCloakVersion', "20.0.2") //추가
+}
+
 dependencies {
+    implementation 'org.keycloak:keycloak-spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'org.keycloak:keycloak-admin-client:20.0.2'
+    implementation 'org.keycloak:keycloak-spring-boot-starter:20.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -30,6 +41,13 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keyCloakVersion}"
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
+
