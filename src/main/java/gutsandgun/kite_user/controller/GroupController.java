@@ -16,29 +16,38 @@ public class GroupController {
     //read
     @GetMapping("")
     public List<GroupDto> getGroupList(){
-        return(groupService.getUserGroupList());
+        Long userId = 1L;
+        return(groupService.getUserGroupList(userId));
     }
 
+
+    //그룹 내 변경
+    /*
     @GetMapping("/{groupId}")
     public GroupDto getGroup(@PathVariable Long groupId){
+        Long userId = 1L;
         return(groupService.getUserGroupById(groupId));
     }
+     */
 
     @PostMapping("/create")
     public Long createGroup(@RequestBody GroupDto groupDto){
-        return(groupService.createUserGroup(groupDto));
+        Long userId = 1L;
+        return(groupService.createUserGroup(userId,groupDto));
     }
 
     //create
     @PostMapping("/copy")
     public Long copyGroup(@RequestBody GroupDto groupDto){
-        return(groupService.copyUserGroup(groupDto));
+        Long userId = 1L;
+        return(groupService.copyUserGroup(userId,groupDto));
     }
 
     //update
     @PutMapping("")
     public Long changeGroup(@RequestBody GroupDto groupDto){
-        return(groupService.changeUserGroup(groupDto));
+        Long userId = 1L;
+        return(groupService.changeUserGroup(userId,groupDto));
     }
 
     //delete -> body로 처리
@@ -50,7 +59,8 @@ public class GroupController {
 
     @DeleteMapping("/{groupId}")
     public String deleteGroup(@PathVariable Long groupId){
-        groupService.deleteUserGroup(groupId);
+        Long userId = 1L;
+        groupService.deleteUserGroup(userId,groupId);
         return("?");
     }
 }
