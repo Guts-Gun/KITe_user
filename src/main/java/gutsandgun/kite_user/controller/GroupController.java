@@ -1,6 +1,7 @@
 package gutsandgun.kite_user.controller;
 
 import gutsandgun.kite_user.dto.group.GroupDto;
+import gutsandgun.kite_user.dto.group.ResponseGroupDetailDto;
 import gutsandgun.kite_user.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +21,11 @@ public class GroupController {
         return(groupService.getUserGroupList(userId));
     }
 
-
-    //그룹 내 변경
-    /*
     @GetMapping("/{groupId}")
-    public GroupDto getGroup(@PathVariable Long groupId){
+    public ResponseGroupDetailDto getGroup(@PathVariable Long groupId){
         Long userId = 1L;
-        return(groupService.getUserGroupById(groupId));
+        return(groupService.getUserGroupById(userId,groupId));
     }
-     */
 
     @PostMapping("/create")
     public Long createGroup(@RequestBody GroupDto groupDto){
@@ -50,17 +47,37 @@ public class GroupController {
         return(groupService.changeUserGroup(userId,groupDto));
     }
 
-    //delete -> body로 처리
-    @DeleteMapping("/")
-    public String deleteGroupList(@RequestBody String value){
-        return("");
-    }
-
-
     @DeleteMapping("/{groupId}")
     public String deleteGroup(@PathVariable Long groupId){
         Long userId = 1L;
         groupService.deleteUserGroup(userId,groupId);
         return("?");
     }
+
+
+    @DeleteMapping("/list")
+    public void deleteGroupList(@RequestBody List<Long> groupIdList){
+        Long userId = 1L;
+        groupService.deleteUserGroupList(userId,groupIdList);
+    }
+
+
+
+
+    @PostMapping("/address/{groupId}")
+    public Long createAddressGroup(@PathVariable Long groupId,@RequestBody List<Long> addressIdList){
+        Long userId = 1L;
+        return(groupService.createAddressGroup(userId,groupId,addressIdList));
+    }
+
+
+
+    @DeleteMapping("/address/{groupId}")
+    public Long deleteAddressGroup(@PathVariable Long groupId,@RequestBody List<Long> addressIdList){
+        Long userId = 1L;
+        return(groupService.deleteAddressGroup(userId,groupId,addressIdList));
+    }
+
+
+
 }

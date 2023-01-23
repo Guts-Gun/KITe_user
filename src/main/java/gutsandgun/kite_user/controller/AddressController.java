@@ -4,6 +4,7 @@ package gutsandgun.kite_user.controller;
 
 import gutsandgun.kite_user.dto.addr.RequestAddressDto;
 import gutsandgun.kite_user.dto.addr.RequestAddressListDto;
+import gutsandgun.kite_user.dto.addr.ResponseAddressWithGroupDto;
 import gutsandgun.kite_user.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,20 +18,13 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-  /*
-      @GetMapping("")
-      public ResponseAddressDto getUserAddress(){
 
-      }
-      @GetMapping("")
-      public List<ResponseAddressDto> getUserAddressList(){
+    @GetMapping("")
+    public List<ResponseAddressWithGroupDto> getAddressList(){
+        Long userId = 1L;
+        return (addressService.getUserAddressList(userId));
+    }
 
-      }
-      @GetMapping("/group/{groupId}")
-      public List<ResponseAddressDto> getUserAddressListByGroupId(){
-
-      }
-  */
     @PostMapping("")
     public void createAddress(@RequestBody RequestAddressDto requestAddressDto){
         Long userId = 1L;
@@ -42,16 +36,11 @@ public class AddressController {
         addressService.createUserAddressList(userId,requestAddressDtoList);
     }
 
-
-
     @DeleteMapping("")
     public void deleteAddressList(@RequestBody List<Long> deleteList){
         Long userId = 1L;
         addressService.deleteUserAddress(userId,deleteList);
     }
-
-
-
 
 
 }

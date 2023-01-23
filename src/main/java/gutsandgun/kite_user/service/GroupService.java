@@ -1,6 +1,8 @@
 package gutsandgun.kite_user.service;
 
+import gutsandgun.kite_user.dto.addr.ResponseAddressDto;
 import gutsandgun.kite_user.dto.group.GroupDto;
+import gutsandgun.kite_user.dto.group.ResponseGroupDetailDto;
 import gutsandgun.kite_user.entity.write.AddressGroup;
 import gutsandgun.kite_user.entity.write.UserAddress;
 import gutsandgun.kite_user.entity.write.UserGroup;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class GroupService {
+    private final AddressService addressService;
+
     //group
     private final ReadUserGroupRepository readUserGroupRepository;
     private final WriteUserGroupRepository wUserGroupRepository;
@@ -27,8 +31,17 @@ public class GroupService {
     public List<GroupDto> getUserGroupList(Long userId){
         return wUserGroupRepository.findByUserId(userId).stream().map(m -> new GroupDto(m)).collect(Collectors.toList());
     }
-    public GroupDto getUserGroupById(Long id){
-        return new GroupDto(wUserGroupRepository.findById(id).get());
+    public ResponseGroupDetailDto getUserGroupById(Long userId, Long groupId){
+        //그룹 정보
+        Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
+        if(check.isPresent()){
+            //그룹 내 전화번호 정보
+            UserGroup userGroup = check.get();
+            List<AddressGroup> addressGroup = wAddressGroupRepository.findByUserGroupId(userGroup.getId());
+            List<ResponseAddressDto> addressList = addressGroup.stream().map(d -> (addressService.getUserAddress(d.getUserAddressId()))).collect(Collectors.toList());
+            return(new ResponseGroupDetailDto(userGroup,addressList));
+        }
+        return null;
     }
 
     public Long createUserGroup(Long userId,GroupDto groupDto){
@@ -77,9 +90,6 @@ public class GroupService {
         return null;
     }
 
-    public void deleteUserGroupList(){
-
-    }
 
     public Long deleteUserGroup(Long userId,Long groupId){
         Optional<UserGroup> idCheck = wUserGroupRepository.findByIdAndUserId(groupId,userId);
@@ -102,6 +112,48 @@ public class GroupService {
         return null;
     }
 
+    public void deleteUserGroupList(Long userId, List<Long> groupIdList){
+        groupIdList.stream().forEach(d->{
+            deleteUserGroup(userId,d);
+        });
+    }
 
+
+    public Long createAddressGroup(Long userId,Long groupId,List<Long> addressList) {
+        Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
+        if(check.isPresent()){
+            addressList.stream().forEach(d->{
+                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(d);
+                if(checkAddress.isPresent()){
+                    Optional<AddressGroup> checkAddressGroup = wAddressGroupRepository.findByUserAddressIdAndUserGroupId(d,groupId);
+                    if(!checkAddressGroup.isPresent()){
+                        AddressGroup addressGroup = AddressGroup.builder()
+                                .userGroupId(groupId)
+                                .userAddressId(d)
+                                .build();
+                        wAddressGroupRepository.save(addressGroup);
+                    }
+                }
+            });
+            return groupId;
+        }
+        return null;
+    }
+
+    public Long deleteAddressGroup(Long userId,Long groupId,List<Long> addressList){
+        Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
+        if(check.isPresent()){
+            addressList.stream().forEach(d->{
+                Optional<AddressGroup> checkAddressGroup = wAddressGroupRepository.findByUserAddressIdAndUserGroupId(d,groupId);
+                if(checkAddressGroup.isPresent()){
+                    AddressGroup addressGroup = checkAddressGroup.get();
+                    addressGroup.setIsDeleted(true);
+                    wAddressGroupRepository.save(addressGroup);
+                }
+            });
+            return groupId;
+        }
+        return null;
+    }
 
 }
