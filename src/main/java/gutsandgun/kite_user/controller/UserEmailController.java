@@ -34,9 +34,9 @@ public class UserEmailController {
     }
 
     @DeleteMapping("")
-    List<Long> deleteUserEmail(@RequestBody List<UserEmailDto> userEmailDtoList){
+    List<Long> deleteUserEmail(@RequestBody List<Long>userEmailIdList){
         Long userId = 1L;
-        return userService.deleteUserEmailList(userId,userEmailDtoList);
+        return userService.deleteUserEmailList(userId,userEmailIdList);
     }
 
 }

@@ -34,9 +34,9 @@ public class UserPhoneController {
     }
 
     @DeleteMapping("")
-    List<Long> deleteUserPhone(@RequestBody List<UserPhoneDto> userPhoneDtoList){
+    List<Long> deleteUserPhone(@RequestBody List<Long>userPhoneIdList){
         Long userId = 1L;
-        return userService.deleteUserPhoneList(userId,userPhoneDtoList);
+        return userService.deleteUserPhoneList(userId,userPhoneIdList);
     }
 
 

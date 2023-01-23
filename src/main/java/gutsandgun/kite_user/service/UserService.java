@@ -31,6 +31,8 @@ public class UserService implements UserServiceInterface {
     public Long createUserPhone(Long userId, UserPhoneDto userPhoneDto) {
         if(wUserPhoneRepository.countByUserId(userId)<10){
             UserPhone userPhone = userPhoneDto.toEntity();
+            userPhone.setUserId(userId);
+            userPhone.setRegId(userId);
             Optional<UserPhone> check = wUserPhoneRepository.findByUserIdAndNameOrPhone(userId, userPhoneDto.getName(), userPhoneDto.getPhone());
             log.info(String.valueOf(check.isPresent()));
             return (!check.isPresent())? wUserPhoneRepository.save(userPhone).getId() : null;
@@ -59,12 +61,13 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public List<Long> deleteUserPhoneList(Long userId, List<UserPhoneDto> userPhoneList) {
-        return userPhoneList.stream().map(d->{
-            Optional<UserPhone> check = wUserPhoneRepository.findById(d.getId());
+    public List<Long> deleteUserPhoneList(Long userId, List<Long> userPhoneIdList) {
+        return userPhoneIdList.stream().map(d->{
+            Optional<UserPhone> check = wUserPhoneRepository.findById(d);
             log.info(String.valueOf(check.isPresent()));
             if(check.isPresent()){
                 UserPhone userPhone = check.get();
+                userPhone.setModId(userId);
                 userPhone.setIsDeleted(true);
                 return wUserPhoneRepository.save(userPhone).getId();
             }
@@ -84,6 +87,8 @@ public class UserService implements UserServiceInterface {
     public Long createUserEmail(Long userId, UserEmailDto userEmailDto) {
         if(wUserEmailRepository.countByUserId(userId)<10){
             UserEmail userEmail = userEmailDto.toEntity();
+            userEmail.setUserId(userId);
+            userEmail.setRegId(userId);
             Optional<UserEmail> check = wUserEmailRepository.findByUserIdAndNameOrEmail(userId, userEmailDto.getName(), userEmailDto.getEmail());
             log.info(String.valueOf(check.isPresent()));
             return (!check.isPresent())? wUserEmailRepository.save(userEmail).getId() : null;
@@ -112,12 +117,13 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public List<Long> deleteUserEmailList(Long userId, List<UserEmailDto> userEmailList) {
-        return userEmailList.stream().map(d->{
-            Optional<UserEmail> check = wUserEmailRepository.findById(d.getId());
+    public List<Long> deleteUserEmailList(Long userId, List<Long>userEmailIdList) {
+        return userEmailIdList.stream().map(d->{
+            Optional<UserEmail> check = wUserEmailRepository.findById(d);
             log.info(String.valueOf(check.isPresent()));
             if(check.isPresent()){
                 UserEmail userEmail = check.get();
+                userEmail.setModId(userId);
                 userEmail.setIsDeleted(true);
                 return wUserEmailRepository.save(userEmail).getId();
             }
