@@ -5,6 +5,7 @@ import gutsandgun.kite_user.entity.write.*;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,58 +33,89 @@ public class AddressService {
 
     private final ReadAddressEmailRepository readAddressEmailRepository;
     private final WriteAddressEmailRepository wAddressEmailRepository;
+    private final WriteUserPhoneRepository wUserPhoneRepository;
 
 
-    public List<ResponseAddressWithGroupDto> getUserAddressList(Long userId){
-        List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId);
-        return userAddressList.stream().map(d-> (getUserAddressDetail(d.getId()))).collect(Collectors.toList());
+    public List<ResponseAddressWithGroupDto> getUserAddressList(Long userId, Pageable pageable){
+        List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId,pageable);
+        return getResponseAddress(userAddressList);
     }
 
-        public ResponseAddressDto getUserAddress(Long addressId){
-            Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
-            if(checkAddress.isPresent()){
-                //이름/id
-                UserAddress userAddress = checkAddress.get();
-                Long id = userAddress.getId();
-                String name = userAddress.getName();
 
-                //email/phone
-                String phone = null;
-                String email = null;
-                Optional<AddressPhone> checkPhone = wAddressPhoneRepository.findByUserAddressId(id);
-                Optional<AddressEmail> checkEmail = wAddressEmailRepository.findByUserAddressId(id);
-                if(checkPhone.isPresent()){
-                    phone = checkPhone.get().getPhone();
-                }
-                if(checkEmail.isPresent()){
-                    email = checkEmail.get().getEmail();
-                }
-                ResponseAddressDto responseAddressDto = new ResponseAddressDto(id,name,phone,email);
-                return responseAddressDto;
-            }
-            return null;
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(Long userId,String name, Pageable pageable){
+        List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name,pageable);
+        return getResponseAddress(userAddressList);
+    }
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(Long userId,String phone, Pageable pageable){
+        List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone,pageable);
+        List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
+            wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
+        )).collect(Collectors.toList());
+
+        return getResponseAddress(userAddressList);
+    }
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(Long userId,String email, Pageable pageable){
+        List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email,pageable);
+        List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
+                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
+        )).collect(Collectors.toList());
+
+        return getResponseAddress(userAddressList);
+    }
+
+        private List<ResponseAddressWithGroupDto> getResponseAddress(List<UserAddress> userAddressList) {
+            return userAddressList.stream().map(d -> {
+                ResponseAddressDto responseAddressDto = getResponseAddressDto(d.getId());
+                return getResponseAddressDetailDto(d.getId(), responseAddressDto);
+            }).collect(Collectors.toList());
         }
 
-        public ResponseAddressWithGroupDto getUserAddressDetail(Long addressId){
-            //address
-            ResponseAddressDto responseAddressDto = getUserAddress(addressId);
-            //group
-            List<ResponseBelongGroupDto> responseBelongGroupDtoList = new ArrayList<>();
-            Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
-            if(checkAddress.isPresent()) {
-                UserAddress userAddress = checkAddress.get();
-                List<AddressGroup> addressGroupList = wAddressGroupRepository.findByUserAddressId(userAddress.getId());
-                addressGroupList.stream().forEach(d->{
-                    Optional<UserGroup> checkUserGroup = wUserGroupRepository.findById(d.getUserGroupId());
-                    if(checkUserGroup.isPresent()){
-                        UserGroup userGroup = checkUserGroup.get();
-                        ResponseBelongGroupDto responseBelongGroupDto = new ResponseBelongGroupDto(userGroup.getId(),userGroup.getGroupName());
-                        responseBelongGroupDtoList.add(responseBelongGroupDto);
+            public ResponseAddressDto getResponseAddressDto(Long addressId){
+                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
+                if(checkAddress.isPresent()){
+                    //이름/id
+                    UserAddress userAddress = checkAddress.get();
+                    Long id = userAddress.getId();
+                    String name = userAddress.getName();
+
+                    //email/phone
+                    String phone = null;
+                    String email = null;
+                    Optional<AddressPhone> checkPhone = wAddressPhoneRepository.findByUserAddressId(id);
+                    Optional<AddressEmail> checkEmail = wAddressEmailRepository.findByUserAddressId(id);
+                    if(checkPhone.isPresent()){
+                        phone = checkPhone.get().getPhone();
                     }
-                });
+                    if(checkEmail.isPresent()){
+                        email = checkEmail.get().getEmail();
+                    }
+                    ResponseAddressDto responseAddressDto = new ResponseAddressDto(id,name,phone,email);
+                    return responseAddressDto;
+                }
+                return null;
             }
-            return(new ResponseAddressWithGroupDto(responseAddressDto,responseBelongGroupDtoList));
-        }
+
+            public ResponseAddressWithGroupDto getResponseAddressDetailDto(Long addressId, ResponseAddressDto responseAddressDto){
+                //group
+                List<ResponseBelongGroupDto> responseBelongGroupDtoList = new ArrayList<>();
+                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
+                if(checkAddress.isPresent()) {
+                    UserAddress userAddress = checkAddress.get();
+                    List<AddressGroup> addressGroupList = wAddressGroupRepository.findByUserAddressId(userAddress.getId());
+                    addressGroupList.stream().forEach(d->{
+                        Optional<UserGroup> checkUserGroup = wUserGroupRepository.findById(d.getUserGroupId());
+                        if(checkUserGroup.isPresent()){
+                            UserGroup userGroup = checkUserGroup.get();
+                            ResponseBelongGroupDto responseBelongGroupDto = new ResponseBelongGroupDto(userGroup.getId(),userGroup.getGroupName());
+                            responseBelongGroupDtoList.add(responseBelongGroupDto);
+                        }
+                    });
+                }
+                return(new ResponseAddressWithGroupDto(responseAddressDto,responseBelongGroupDtoList));
+            }
 
 
 

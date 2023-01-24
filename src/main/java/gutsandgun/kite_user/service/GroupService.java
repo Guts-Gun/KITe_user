@@ -40,7 +40,7 @@ public class GroupService extends BaseTimeEntity {
             //그룹 내 전화번호 정보
             UserGroup userGroup = check.get();
             List<AddressGroup> addressGroup = wAddressGroupRepository.findByUserGroupId(userGroup.getId());
-            List<ResponseAddressDto> addressList = addressGroup.stream().map(d -> (addressService.getUserAddress(d.getUserAddressId()))).collect(Collectors.toList());
+            List<ResponseAddressDto> addressList = addressGroup.stream().map(d -> (addressService.getResponseAddressDto(d.getUserAddressId()))).collect(Collectors.toList());
             return(new ResponseGroupDetailDto(userGroup,addressList));
         }
         return null;
