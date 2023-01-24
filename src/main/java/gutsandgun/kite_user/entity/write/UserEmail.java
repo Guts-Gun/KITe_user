@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
+import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
 @Entity
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import org.hibernate.annotations.Where;
 @Table(name="user_email")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEmail extends gutsandgun.kite_sendmanager.entity.BaseTimeEntity {
+public class UserEmail extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

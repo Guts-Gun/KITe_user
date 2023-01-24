@@ -9,6 +9,8 @@ import gutsandgun.kite_user.entity.write.UserGroup;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
 
+import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class GroupService {
+public class GroupService extends BaseTimeEntity {
     private final AddressService addressService;
 
     //group
@@ -70,6 +72,7 @@ public class GroupService {
                 AddressGroup addressGroup = AddressGroup.builder()
                         .userAddressId(d.getUserAddressId())
                         .userGroupId(userGroupSave.getId())
+                        .regId(userId)
                         .build();
                 wAddressGroupRepository.save(addressGroup);
             });
@@ -84,6 +87,7 @@ public class GroupService {
         if(idCheck.isPresent() && !nameCheck.isPresent()){
             UserGroup userGroup = idCheck.get();
             userGroup.setGroupName(groupDto.getGroupName());
+            userGroup.setModId(userId);
             UserGroup userGroupSave = wUserGroupRepository.save(userGroup);
             return userGroupSave.getId();
         }
@@ -97,12 +101,14 @@ public class GroupService {
         if(idCheck.isPresent()){
             //그룹 삭제
             UserGroup userGroup = idCheck.get();
+            userGroup.setModId(userId);
             userGroup.setIsDeleted(true);
             UserGroup saveUserGroup = wUserGroupRepository.save(userGroup);
 
             //그룹 관계 삭제
             addressGroupCheck.stream().forEach(c->{
                 AddressGroup addressGroup = c;
+                addressGroup.setModId(userId);
                 addressGroup.setIsDeleted(true);
                 AddressGroup saveAddressGroup = wAddressGroupRepository.save(addressGroup);
             });
@@ -122,6 +128,7 @@ public class GroupService {
     public Long createAddressGroup(Long userId,Long groupId,List<Long> addressList) {
         Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
+            //그룹 내 전화번호 추가
             addressList.stream().forEach(d->{
                 Optional<UserAddress> checkAddress = wUserAddressRepository.findById(d);
                 if(checkAddress.isPresent()){
@@ -130,6 +137,7 @@ public class GroupService {
                         AddressGroup addressGroup = AddressGroup.builder()
                                 .userGroupId(groupId)
                                 .userAddressId(d)
+                                .regId(userId)
                                 .build();
                         wAddressGroupRepository.save(addressGroup);
                     }
@@ -143,10 +151,12 @@ public class GroupService {
     public Long deleteAddressGroup(Long userId,Long groupId,List<Long> addressList){
         Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
+            //그룹 내 전화번호 삭제
             addressList.stream().forEach(d->{
                 Optional<AddressGroup> checkAddressGroup = wAddressGroupRepository.findByUserAddressIdAndUserGroupId(d,groupId);
                 if(checkAddressGroup.isPresent()){
                     AddressGroup addressGroup = checkAddressGroup.get();
+                    addressGroup.setModId(userId);
                     addressGroup.setIsDeleted(true);
                     wAddressGroupRepository.save(addressGroup);
                 }

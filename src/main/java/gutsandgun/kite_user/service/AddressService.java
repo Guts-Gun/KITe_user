@@ -99,15 +99,21 @@ public class AddressService {
     public void createUserAddressList(Long userId,RequestAddressListDto requestAddressListDto){
         //1.그룹-유저 확인
         Optional<UserGroup> userGroup= wUserGroupRepository.findByIdAndUserId(requestAddressListDto.getGroupId(),userId);
-        if(userGroup.isPresent() || requestAddressListDto.getGroupId()==-1){
+        if(userGroup.isPresent()){
             System.out.println("group enable");
-            //2. dto에 group id 세팅
+            //2-1. dto에 group id 세팅
             requestAddressListDto.getRequestAddressList().forEach(d->{
                 d.setGroupId(userGroup.get().getId());
             });
-            //3.생성
-            requestAddressListDto.getRequestAddressList().forEach(d->createUserAddress(userId,d));
         }
+        else if(requestAddressListDto.getGroupId()==-1){
+            //2-2. dto에 group id 세팅 (그룹 미지정)
+            requestAddressListDto.getRequestAddressList().forEach(d->{
+                d.setGroupId(-1L);
+            });
+        }
+        //생성
+        requestAddressListDto.getRequestAddressList().forEach(d->createUserAddress(userId,d));
     }
         private void createUserAddress(Long userId,RequestAddressDto requestAddressDto){
             //0.dto세팅
@@ -169,6 +175,7 @@ public class AddressService {
                     wAddressGroupRepository.save(AddressGroup.builder()
                             .userAddressId(userAddress.getId())
                             .userGroupId(requestAddressDto.getGroupId())
+                            .regId(userId)
                             .build());
                 }
             }
@@ -181,6 +188,7 @@ public class AddressService {
                         wAddressGroupRepository.save(AddressGroup.builder()
                                 .userAddressId(id.get())
                                 .userGroupId(requestAddressDto.getGroupId())
+                                .regId(userId)
                                 .build());
                     }
                 }
@@ -194,6 +202,7 @@ public class AddressService {
             Optional<UserAddress> userAddress = wUserAddressRepository.findByIdAndUserId(d,userId);
             if(userAddress.isPresent()){
                 UserAddress value = userAddress.get();
+                value.setModId(userId);
                 value.setIsDeleted(true);
                 wUserAddressRepository.save(value);
 
@@ -205,6 +214,7 @@ public class AddressService {
                 Optional<AddressPhone> addressPhone = wAddressPhoneRepository.findByUserAddressId(userAddressId);
                 if(addressPhone.isPresent()){
                     AddressPhone v = addressPhone.get();
+                    v.setModId(userId);
                     v.setIsDeleted(true);
                     wAddressPhoneRepository.save(v);
                 }
@@ -213,6 +223,7 @@ public class AddressService {
                 Optional<AddressEmail> addressEmail = wAddressEmailRepository.findByUserAddressId(userAddressId);
                 if(addressEmail.isPresent()){
                     AddressEmail v = addressEmail.get();
+                    v.setModId(userId);
                     v.setIsDeleted(true);
                     wAddressEmailRepository.save(v);
                 }
@@ -221,6 +232,7 @@ public class AddressService {
                 List<AddressGroup> addressGroupList = wAddressGroupRepository.findByUserAddressId(userAddressId);
                 addressGroupList.stream().forEach(ag->{
                     AddressGroup addressGroup = ag;
+                    addressGroup.setModId(userId);
                     addressGroup.setIsDeleted(true);
                     wAddressGroupRepository.save(addressGroup);
                 });

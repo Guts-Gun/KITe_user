@@ -2,8 +2,10 @@ package gutsandgun.kite_user.entity.write;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -12,7 +14,7 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql= "UPDATE user_group SET is_deleted=true WHERE id = ?")
 @Table(name="user_group")
 @NoArgsConstructor
-public class UserGroup {
+public class UserGroup extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,11 +27,19 @@ public class UserGroup {
 
     private Boolean isDeleted = false;
 
+    @Comment("생성자")
+    @Column(name = "reg_id", nullable = false, length = 20)
+    private Long regId;
+
+    @Comment("수정자")
+    @Column(name = "mod_id", length = 20)
+    private Long ModId;
 
     @Builder
     public UserGroup(Long userId, String groupName){
         this.userId = userId;
         this.groupName = groupName;
+        this.regId = userId;
     }
 
 

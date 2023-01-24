@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -15,7 +17,7 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql= "UPDATE address_phone SET is_deleted=true WHERE id = ?")
 @Table(name="address_phone")
 @NoArgsConstructor
-public class AddressPhone {
+public class AddressPhone extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +31,19 @@ public class AddressPhone {
 
     private Boolean isDeleted = false;
 
+    @Comment("생성자")
+    @Column(name = "reg_id", nullable = false, length = 20)
+    private Long regId;
+
+    @Comment("수정자")
+    @Column(name = "mod_id", length = 20)
+    private Long ModId;
+
+
     @Builder
-    public AddressPhone(Long userAddressId, String phone) {
+    public AddressPhone(Long regId,Long userAddressId, String phone) {
         this.userAddressId = userAddressId;
         this.phone = phone;
+        this.regId = regId;
     }
 }

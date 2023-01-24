@@ -25,13 +25,17 @@ public class RequestAddressDto {
     public AddressPhone toUserAddressPhoneEntity(Long userAddressId){
         return AddressPhone.builder()
                 .userAddressId(userAddressId)
-                .phone(this.phone).build();
+                .phone(this.phone)
+                .regId(this.userId)
+                .build();
     }
 
     public AddressEmail toUserAddressEmailEntity(Long userAddressId){
         return AddressEmail.builder()
                 .userAddressId(userAddressId)
-                .email(this.email).build();
+                .email(this.email)
+                .regId(this.userId)
+                .build();
     }
 
 }

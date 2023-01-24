@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -15,7 +17,7 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql= "UPDATE address_group SET is_deleted=true WHERE id = ?")
 @Table(name="address_group")
 @NoArgsConstructor
-public class AddressGroup {
+public class AddressGroup extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +32,20 @@ public class AddressGroup {
 
     private Boolean isDeleted = false;
 
+    @Comment("생성자")
+    @Column(name = "reg_id", nullable = false, length = 20)
+    private Long regId;
+
+    @Comment("수정자")
+    @Column(name = "mod_id", length = 20)
+    private Long ModId;
+
+
     @Builder
-    public AddressGroup(Long userAddressId,Long userGroupId){
+    public AddressGroup(Long regId,Long userAddressId,Long userGroupId){
         this.userAddressId = userAddressId;
         this.userGroupId = userGroupId;
+        this.regId = regId;
     }
 
 

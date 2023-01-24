@@ -27,11 +27,11 @@ public abstract class BaseTimeEntity {
     private LocalDateTime modDt;
 
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDateTime getRegDt() {
         return regDt;
     }
 
-    public LocalDateTime getModifiedDate() {
+    public LocalDateTime getModDt() {
         return modDt;
     }
 }
