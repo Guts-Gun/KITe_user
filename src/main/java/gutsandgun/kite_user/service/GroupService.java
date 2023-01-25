@@ -3,6 +3,7 @@ package gutsandgun.kite_user.service;
 import gutsandgun.kite_user.dto.addr.ResponseAddressDto;
 import gutsandgun.kite_user.dto.group.GroupDto;
 import gutsandgun.kite_user.dto.group.ResponseGroupDetailDto;
+import gutsandgun.kite_user.dto.group.ResponseGroupDto;
 import gutsandgun.kite_user.entity.write.AddressGroup;
 import gutsandgun.kite_user.entity.write.UserAddress;
 import gutsandgun.kite_user.entity.write.UserGroup;
@@ -30,8 +31,14 @@ public class GroupService extends BaseTimeEntity {
     private final WriteUserAddressRepository wUserAddressRepository;
 
 
-    public List<GroupDto> getUserGroupList(Long userId){
-        return wUserGroupRepository.findByUserId(userId).stream().map(m -> new GroupDto(m)).collect(Collectors.toList());
+    public List<ResponseGroupDto> getUserGroupList(Long userId){
+        return wUserGroupRepository.findByUserId(userId).stream().map(m -> {
+            Long addressCount = wAddressGroupRepository.countByUserGroupId( m.getId());
+            return new ResponseGroupDto(m,addressCount);
+        }).collect(Collectors.toList());
+
+
+
     }
     public ResponseGroupDetailDto getUserGroupById(Long userId, Long groupId){
         //그룹 정보
@@ -49,7 +56,7 @@ public class GroupService extends BaseTimeEntity {
     public Long createUserGroup(Long userId,GroupDto groupDto){
         Optional<UserGroup> check = wUserGroupRepository.findByUserIdAndGroupName(userId,groupDto.getGroupName());
         if(!check.isPresent()){
-            UserGroup userGroup = groupDto.toEntity(userId,groupDto.getGroupName());
+            UserGroup userGroup = groupDto.toEntity(userId);
             UserGroup userGroupSave = wUserGroupRepository.save(userGroup);
             return userGroupSave.getId();
         }
@@ -64,6 +71,7 @@ public class GroupService extends BaseTimeEntity {
             UserGroup copyGroup = UserGroup.builder()
                     .userId(idCheck.get().getUserId())
                     .groupName(groupDto.getGroupName())
+                    .description(groupDto.getDescription())
                     .build();
             UserGroup userGroupSave = wUserGroupRepository.save(copyGroup);
             //전화번호부 복사
@@ -87,6 +95,7 @@ public class GroupService extends BaseTimeEntity {
         if(idCheck.isPresent() && !nameCheck.isPresent()){
             UserGroup userGroup = idCheck.get();
             userGroup.setGroupName(groupDto.getGroupName());
+            userGroup.setDescription(groupDto.getDescription());
             userGroup.setModId(userId);
             UserGroup userGroupSave = wUserGroupRepository.save(userGroup);
             return userGroupSave.getId();

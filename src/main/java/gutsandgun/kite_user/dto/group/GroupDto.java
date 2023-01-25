@@ -14,6 +14,7 @@ public class GroupDto {
     private Long id;
     private Long userId;
     private String groupName;
+    private String description;
 
     private LocalDateTime regDt;
     private LocalDateTime modDt;
@@ -22,14 +23,16 @@ public class GroupDto {
         this.id = userGroup.getId();
         this.userId = userGroup.getUserId();
         this.groupName = userGroup.getGroupName();
+        this.description = userGroup.getDescription();
         this.regDt = userGroup.getRegDt();
         this.modDt = userGroup.getModDt();
     }
 
-    public UserGroup toEntity(Long userId,String groupName){
+    public UserGroup toEntity(Long userId){
         return UserGroup.builder()
                 .userId(userId)
                 .groupName(groupName)
+                .description(description)
                 .build();
     }
 }

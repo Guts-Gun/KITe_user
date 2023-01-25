@@ -2,6 +2,7 @@ package gutsandgun.kite_user.controller;
 
 import gutsandgun.kite_user.dto.group.GroupDto;
 import gutsandgun.kite_user.dto.group.ResponseGroupDetailDto;
+import gutsandgun.kite_user.dto.group.ResponseGroupDto;
 import gutsandgun.kite_user.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class GroupController {
 
     //read
     @GetMapping("")
-    public List<GroupDto> getGroupList(){
+    public List<ResponseGroupDto> getGroupList(){
         Long userId = 1L;
         return(groupService.getUserGroupList(userId));
     }

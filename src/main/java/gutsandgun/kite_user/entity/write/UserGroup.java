@@ -25,6 +25,8 @@ public class UserGroup extends BaseTimeEntity{
 
     private String groupName;
 
+    private String description;
+
     private Boolean isDeleted = false;
 
     @Comment("생성자")
@@ -36,9 +38,10 @@ public class UserGroup extends BaseTimeEntity{
     private Long ModId;
 
     @Builder
-    public UserGroup(Long userId, String groupName){
+    public UserGroup(Long userId, String groupName,String description){
         this.userId = userId;
         this.groupName = groupName;
+        this.description = description;
         this.regId = userId;
     }
 
