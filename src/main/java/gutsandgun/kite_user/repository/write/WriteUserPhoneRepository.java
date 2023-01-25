@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WriteUserPhoneRepository extends JpaRepository<UserPhone, Long>, JpaSpecificationExecutor<UserPhone> {
-    Long countByUserId(Long userI);
-    List<UserPhone> findByUserId(Long userId);
+    Long countByUserId(String userId);
+    List<UserPhone> findByUserId(String userId);
 
-    Optional<UserPhone> findByUserIdAndNameOrPhone(Long userId, String name, String phone);
+    Optional<UserPhone> findByUserIdAndNameOrPhone(String userId, String name, String phone);
 }

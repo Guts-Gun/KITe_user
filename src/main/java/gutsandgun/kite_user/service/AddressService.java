@@ -36,17 +36,17 @@ public class AddressService {
     private final WriteUserPhoneRepository wUserPhoneRepository;
 
 
-    public List<ResponseAddressWithGroupDto> getUserAddressList(Long userId){
+    public List<ResponseAddressWithGroupDto> getUserAddressList(String userId){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId);
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(Long userId, String name){
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(String userId, String name){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name);
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(Long userId, String phone){
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(String userId, String phone){
         List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone);
         List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
                 wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
@@ -55,7 +55,7 @@ public class AddressService {
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(Long userId, String email){
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(String userId, String email){
         List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email);
         List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
                 wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
@@ -65,17 +65,17 @@ public class AddressService {
     }
 
 
-    public List<ResponseAddressWithGroupDto> getUserAddressPage(Long userId, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPage(String userId, Pageable pageable){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId,pageable);
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterName(Long userId, String name, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterName(String userId, String name, Pageable pageable){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name,pageable);
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterPhone(Long userId, String phone, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterPhone(String userId, String phone, Pageable pageable){
         List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone,pageable);
         List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
             wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
@@ -84,7 +84,7 @@ public class AddressService {
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterEmail(Long userId, String email, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterEmail(String userId, String email, Pageable pageable){
         List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email,pageable);
         List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
                 wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
@@ -146,7 +146,7 @@ public class AddressService {
 
 
 
-    public void createUserAddressOne(Long userId,RequestAddressDto requestAddressDto){
+    public void createUserAddressOne(String userId,RequestAddressDto requestAddressDto){
         //1.그룹-유저 확인
         Optional<UserGroup> userGroup= wUserGroupRepository.findByIdAndUserId(requestAddressDto.getGroupId(),userId);
         if(userGroup.isPresent() || requestAddressDto.getGroupId()==-1){
@@ -155,7 +155,7 @@ public class AddressService {
             createUserAddress(userId,requestAddressDto);
         }
     }
-    public void createUserAddressList(Long userId,RequestAddressListDto requestAddressListDto){
+    public void createUserAddressList(String userId,RequestAddressListDto requestAddressListDto){
         //1.그룹-유저 확인
         Optional<UserGroup> userGroup= wUserGroupRepository.findByIdAndUserId(requestAddressListDto.getGroupId(),userId);
         if(userGroup.isPresent()){
@@ -174,7 +174,7 @@ public class AddressService {
         //생성
         requestAddressListDto.getRequestAddressList().forEach(d->createUserAddress(userId,d));
     }
-        private void createUserAddress(Long userId,RequestAddressDto requestAddressDto){
+        private void createUserAddress(String userId,RequestAddressDto requestAddressDto){
             //0.dto세팅
             requestAddressDto.setUserId(userId);
 
@@ -255,7 +255,7 @@ public class AddressService {
 
         }
 
-    public void deleteUserAddress(Long userId,List<Long> deleteIdList){
+    public void deleteUserAddress(String userId,List<Long> deleteIdList){
         deleteIdList.stream().forEach(d->{
             //주소록 삭제
             Optional<UserAddress> userAddress = wUserAddressRepository.findByIdAndUserId(d,userId);

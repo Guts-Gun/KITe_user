@@ -37,15 +37,15 @@ public class AddressPhone extends BaseTimeEntity {
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)
-    private Long regId;
+    private String regId;
 
     @Comment("수정자")
     @Column(name = "mod_id", length = 20)
-    private Long ModId;
+    private String ModId;
 
 
     @Builder
-    public AddressPhone(Long regId,Long userAddressId, String phone) {
+    public AddressPhone(String regId,Long userAddressId, String phone) {
         this.userAddressId = userAddressId;
         this.phone = phone;
         this.regId = regId;

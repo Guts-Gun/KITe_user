@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class ResponseGroupDetailDto {
     private Long id;
-    private Long userId;
+    private String userId;
     private String groupName;
     private String description;
 

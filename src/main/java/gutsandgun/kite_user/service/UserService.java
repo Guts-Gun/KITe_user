@@ -24,11 +24,11 @@ public class UserService implements UserServiceInterface {
     @Autowired
     WriteUserPhoneRepository wUserPhoneRepository;
     @Override
-    public List<UserPhoneDto> readUserPhone(Long userId) {
+    public List<UserPhoneDto> readUserPhone(String userId) {
         return wUserPhoneRepository.findByUserId(userId).stream().map(m->new UserPhoneDto(m)).collect(Collectors.toList());
     }
     @Override
-    public Long createUserPhone(Long userId, UserPhoneDto userPhoneDto) {
+    public Long createUserPhone(String userId, UserPhoneDto userPhoneDto) {
         if(wUserPhoneRepository.countByUserId(userId)<10){
             UserPhone userPhone = userPhoneDto.toEntity();
             userPhone.setUserId(userId);
@@ -43,7 +43,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Long updateUserPhone(Long userId, UserPhoneDto userPhoneDto) {
+    public Long updateUserPhone(String userId, UserPhoneDto userPhoneDto) {
 
         Optional<UserPhone> namePhoneCheck = wUserPhoneRepository.findByUserIdAndNameOrPhone(userId, userPhoneDto.getName(), userPhoneDto.getPhone());
         Optional<UserPhone> idCheck = wUserPhoneRepository.findById(userPhoneDto.getId());
@@ -61,7 +61,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public List<Long> deleteUserPhoneList(Long userId, List<Long> userPhoneIdList) {
+    public List<Long> deleteUserPhoneList(String userId, List<Long> userPhoneIdList) {
         return userPhoneIdList.stream().map(d->{
             Optional<UserPhone> check = wUserPhoneRepository.findById(d);
             log.info(String.valueOf(check.isPresent()));
@@ -80,11 +80,11 @@ public class UserService implements UserServiceInterface {
     @Autowired
     WriteUserEmailRepository wUserEmailRepository;
     @Override
-    public List<UserEmailDto> readUserEmail(Long userId) {
+    public List<UserEmailDto> readUserEmail(String userId) {
         return wUserEmailRepository.findByUserId(userId).stream().map(m->new UserEmailDto(m)).collect(Collectors.toList());
     }
     @Override
-    public Long createUserEmail(Long userId, UserEmailDto userEmailDto) {
+    public Long createUserEmail(String userId, UserEmailDto userEmailDto) {
         if(wUserEmailRepository.countByUserId(userId)<10){
             UserEmail userEmail = userEmailDto.toEntity();
             userEmail.setUserId(userId);
@@ -99,7 +99,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Long updateUserEmail(Long userId, UserEmailDto userEmailDto) {
+    public Long updateUserEmail(String userId, UserEmailDto userEmailDto) {
 
         Optional<UserEmail> nameEmailCheck = wUserEmailRepository.findByUserIdAndNameOrEmail(userId, userEmailDto.getName(), userEmailDto.getEmail());
         Optional<UserEmail> idCheck = wUserEmailRepository.findById(userEmailDto.getId());
@@ -117,7 +117,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public List<Long> deleteUserEmailList(Long userId, List<Long>userEmailIdList) {
+    public List<Long> deleteUserEmailList(String userId, List<Long>userEmailIdList) {
         return userEmailIdList.stream().map(d->{
             Optional<UserEmail> check = wUserEmailRepository.findById(d);
             log.info(String.valueOf(check.isPresent()));

@@ -25,13 +25,13 @@ public class AddressController {
     //all
     @GetMapping("")
     public List<ResponseAddressWithGroupDto> getAddressList(){
-        Long userId = 1L;
+        String userId = "solbitest";
         return (addressService.getUserAddressList(userId));
     }
 
     @GetMapping("/filter")
     public List<ResponseAddressWithGroupDto> getAddressListWithFilter(@RequestParam HashMap<String,String> paramMap){
-        Long userId = 1L;
+        String userId = "solbitest";
         if(paramMap.get("name")!=null){
             return addressService.getUserAddressListFilterName(userId,paramMap.get("name"));
         }
@@ -47,13 +47,13 @@ public class AddressController {
     //page
     @GetMapping("/page")
     public List<ResponseAddressWithGroupDto> getAddressPage(@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
-        Long userId = 1L;
+        String userId = "solbitest";
         return (addressService.getUserAddressPage(userId,pageable));
     }
 
     @GetMapping("/page/filter")
     public List<ResponseAddressWithGroupDto> getAddressPageWithFilter(@RequestParam HashMap<String,String> paramMap,@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
-        Long userId = 1L;
+        String userId = "solbitest";
         if(paramMap.get("name")!=null){
             return addressService.getUserAddressPageFilterName(userId,paramMap.get("name"),pageable);
         }
@@ -69,18 +69,18 @@ public class AddressController {
 
     @PostMapping("")
     public void createAddress(@RequestBody RequestAddressDto requestAddressDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         addressService.createUserAddressOne(userId,requestAddressDto);
     }
     @PostMapping("/list")
     public void createAddressList(@RequestBody RequestAddressListDto requestAddressDtoList){
-        Long userId = 1L;
+        String userId = "solbitest";
         addressService.createUserAddressList(userId,requestAddressDtoList);
     }
 
     @DeleteMapping("")
     public void deleteAddressList(@RequestBody List<Long> deleteList){
-        Long userId = 1L;
+        String userId = "solbitest";
         addressService.deleteUserAddress(userId,deleteList);
     }
 

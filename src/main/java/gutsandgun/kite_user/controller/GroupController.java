@@ -18,39 +18,39 @@ public class GroupController {
     //read
     @GetMapping("")
     public List<ResponseGroupDto> getGroupList(){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.getUserGroupList(userId));
     }
 
     @GetMapping("/{groupId}")
     public ResponseGroupDetailDto getGroup(@PathVariable Long groupId){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.getUserGroupById(userId,groupId));
     }
 
     @PostMapping("/create")
     public Long createGroup(@RequestBody GroupDto groupDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.createUserGroup(userId,groupDto));
     }
 
     //create
     @PostMapping("/copy")
     public Long copyGroup(@RequestBody GroupDto groupDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.copyUserGroup(userId,groupDto));
     }
 
     //update
     @PutMapping("")
     public Long changeGroup(@RequestBody GroupDto groupDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.changeUserGroup(userId,groupDto));
     }
 
     @DeleteMapping("/{groupId}")
     public String deleteGroup(@PathVariable Long groupId){
-        Long userId = 1L;
+        String userId = "solbitest";
         groupService.deleteUserGroup(userId,groupId);
         return("?");
     }
@@ -58,7 +58,7 @@ public class GroupController {
 
     @DeleteMapping("/list")
     public void deleteGroupList(@RequestBody List<Long> groupIdList){
-        Long userId = 1L;
+        String userId = "solbitest";
         groupService.deleteUserGroupList(userId,groupIdList);
     }
 
@@ -67,7 +67,7 @@ public class GroupController {
 
     @PostMapping("/address/{groupId}")
     public Long createAddressGroup(@PathVariable Long groupId,@RequestBody List<Long> addressIdList){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.createAddressGroup(userId,groupId,addressIdList));
     }
 
@@ -75,7 +75,7 @@ public class GroupController {
 
     @DeleteMapping("/address/{groupId}")
     public Long deleteAddressGroup(@PathVariable Long groupId,@RequestBody List<Long> addressIdList){
-        Long userId = 1L;
+        String userId = "solbitest";
         return(groupService.deleteAddressGroup(userId,groupId,addressIdList));
     }
 

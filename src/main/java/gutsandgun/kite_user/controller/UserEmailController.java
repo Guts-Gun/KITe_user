@@ -17,25 +17,25 @@ public class UserEmailController {
 
     @GetMapping("")
     List<UserEmailDto> readUserEmail(){
-        Long userId = 1L;
+        String userId = "solbitest";
         return userService.readUserEmail(userId);
     }
 
     @PostMapping("")
     Long createUserEmail(@RequestBody UserEmailDto userEmailDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         return userService.createUserEmail(userId,userEmailDto);
     }
 
     @PutMapping("")
     Long updateUserEmail(@RequestBody UserEmailDto userEmailDto){
-        Long userId = 1L;
+        String userId = "solbitest";
         return userService.updateUserEmail(userId,userEmailDto);
     }
 
     @DeleteMapping("")
     List<Long> deleteUserEmail(@RequestBody List<Long>userEmailIdList){
-        Long userId = 1L;
+        String userId = "solbitest";
         return userService.deleteUserEmailList(userId,userEmailIdList);
     }
 

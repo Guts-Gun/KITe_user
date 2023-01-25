@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 public class GroupDto {
     private Long id;
-    private Long userId;
+    private String userId;
     private String groupName;
     private String description;
 
@@ -28,7 +28,7 @@ public class GroupDto {
         this.modDt = userGroup.getModDt();
     }
 
-    public UserGroup toEntity(Long userId){
+    public UserGroup toEntity(String userId){
         return UserGroup.builder()
                 .userId(userId)
                 .groupName(groupName)

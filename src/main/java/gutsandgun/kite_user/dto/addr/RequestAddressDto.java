@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @Setter
 public class RequestAddressDto {
-    private Long userId;
+    private String userId;
     private Long groupId;
     private String name;
     private String phone;

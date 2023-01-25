@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface WriteUserEmailRepository extends JpaRepository<UserEmail, Long>, JpaSpecificationExecutor<UserEmail> {
 
-    Long countByUserId(Long userId);
-    List<UserEmail> findByUserId(Long userId);
-    Optional<UserEmail> findByUserIdAndNameOrEmail(Long userId, String name, String email);
+    Long countByUserId(String userId);
+    List<UserEmail> findByUserId(String userId);
+    Optional<UserEmail> findByUserIdAndNameOrEmail(String userId, String name, String email);
 }

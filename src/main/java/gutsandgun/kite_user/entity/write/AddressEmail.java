@@ -37,14 +37,14 @@ public class AddressEmail extends BaseTimeEntity{
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)
-    private Long regId;
+    private String regId;
 
     @Comment("수정자")
     @Column(name = "mod_id", length = 20)
-    private Long ModId;
+    private String ModId;
 
     @Builder
-    public AddressEmail(Long regId,Long userAddressId, String email){
+    public AddressEmail(String regId,Long userAddressId, String email){
         this.userAddressId = userAddressId;
         this.email = email;
         this.regId = regId;

@@ -25,7 +25,7 @@ public class UserPhone extends BaseTimeEntity {
 
     @Column(name = "fk_user_id")
     @Comment("user id")
-    private Long userId;
+    private String userId;
 
     @Comment("발신 이름")
     private String name;
@@ -38,14 +38,14 @@ public class UserPhone extends BaseTimeEntity {
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)
-    private Long regId;
+    private String regId;
 
     @Comment("수정자")
     @Column(name = "mod_id", length = 20)
-    private Long ModId;
+    private String ModId;
 
     @Builder
-    public UserPhone(Long userId, String name,String phone){
+    public UserPhone(String userId, String name,String phone){
         this.userId = userId;
         this.name = name;
         this.phone = phone;

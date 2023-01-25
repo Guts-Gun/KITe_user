@@ -20,7 +20,7 @@ public class UserGroup {
     private Long id;
 
     @Column(name = "fk_user_id")
-    private Long userId;
+    private String userId;
 
     private String groupName;
 

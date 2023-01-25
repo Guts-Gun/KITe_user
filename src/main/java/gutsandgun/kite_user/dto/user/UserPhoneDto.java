@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserPhoneDto {
     private Long id;
-    private Long userId;
+    private String userId;
     private String name;
     private String phone;
 

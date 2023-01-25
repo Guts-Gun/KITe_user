@@ -31,7 +31,7 @@ public class GroupService extends BaseTimeEntity {
     private final WriteUserAddressRepository wUserAddressRepository;
 
 
-    public List<ResponseGroupDto> getUserGroupList(Long userId){
+    public List<ResponseGroupDto> getUserGroupList(String userId){
         return wUserGroupRepository.findByUserId(userId).stream().map(m -> {
             Long addressCount = wAddressGroupRepository.countByUserGroupId( m.getId());
             return new ResponseGroupDto(m,addressCount);
@@ -40,7 +40,7 @@ public class GroupService extends BaseTimeEntity {
 
 
     }
-    public ResponseGroupDetailDto getUserGroupById(Long userId, Long groupId){
+    public ResponseGroupDetailDto getUserGroupById(String userId, Long groupId){
         //그룹 정보
         Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
@@ -53,7 +53,7 @@ public class GroupService extends BaseTimeEntity {
         return null;
     }
 
-    public Long createUserGroup(Long userId,GroupDto groupDto){
+    public Long createUserGroup(String userId,GroupDto groupDto){
         Optional<UserGroup> check = wUserGroupRepository.findByUserIdAndGroupName(userId,groupDto.getGroupName());
         if(!check.isPresent()){
             UserGroup userGroup = groupDto.toEntity(userId);
@@ -63,7 +63,7 @@ public class GroupService extends BaseTimeEntity {
         return null;
     }
 
-    public Long copyUserGroup(Long userId,GroupDto groupDto){
+    public Long copyUserGroup(String userId,GroupDto groupDto){
         //그룹 복사
         Optional<UserGroup> idCheck = wUserGroupRepository.findByIdAndUserId(groupDto.getId(),userId);
         Optional<UserGroup> nameCheck = wUserGroupRepository.findByUserIdAndGroupName(userId,groupDto.getGroupName());
@@ -89,7 +89,7 @@ public class GroupService extends BaseTimeEntity {
         return null;
     }
 
-    public Long changeUserGroup(Long userId,GroupDto groupDto){
+    public Long changeUserGroup(String userId,GroupDto groupDto){
         Optional<UserGroup> idCheck = wUserGroupRepository.findByIdAndUserId(groupDto.getId(),userId);
         Optional<UserGroup> nameCheck = wUserGroupRepository.findByUserIdAndGroupName(userId,groupDto.getGroupName());
         if(idCheck.isPresent() && !nameCheck.isPresent()){
@@ -104,7 +104,7 @@ public class GroupService extends BaseTimeEntity {
     }
 
 
-    public Long deleteUserGroup(Long userId,Long groupId){
+    public Long deleteUserGroup(String userId,Long groupId){
         Optional<UserGroup> idCheck = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         List<AddressGroup> addressGroupCheck = wAddressGroupRepository.findByUserGroupId(groupId);
         if(idCheck.isPresent()){
@@ -127,14 +127,14 @@ public class GroupService extends BaseTimeEntity {
         return null;
     }
 
-    public void deleteUserGroupList(Long userId, List<Long> groupIdList){
+    public void deleteUserGroupList(String userId, List<Long> groupIdList){
         groupIdList.stream().forEach(d->{
             deleteUserGroup(userId,d);
         });
     }
 
 
-    public Long createAddressGroup(Long userId,Long groupId,List<Long> addressList) {
+    public Long createAddressGroup(String userId,Long groupId,List<Long> addressList) {
         Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
             //그룹 내 전화번호 추가
@@ -157,7 +157,7 @@ public class GroupService extends BaseTimeEntity {
         return null;
     }
 
-    public Long deleteAddressGroup(Long userId,Long groupId,List<Long> addressList){
+    public Long deleteAddressGroup(String userId,Long groupId,List<Long> addressList){
         Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
             //그룹 내 전화번호 삭제

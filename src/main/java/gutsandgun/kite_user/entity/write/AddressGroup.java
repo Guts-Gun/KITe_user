@@ -38,15 +38,15 @@ public class AddressGroup extends BaseTimeEntity{
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)
-    private Long regId;
+    private String regId;
 
     @Comment("수정자")
     @Column(name = "mod_id", length = 20)
-    private Long ModId;
+    private String ModId;
 
 
     @Builder
-    public AddressGroup(Long regId,Long userAddressId,Long userGroupId){
+    public AddressGroup(String regId,Long userAddressId,Long userGroupId){
         this.userAddressId = userAddressId;
         this.userGroupId = userGroupId;
         this.regId = regId;
