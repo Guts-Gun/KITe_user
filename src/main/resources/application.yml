@@ -34,16 +34,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: https://yjhome.kro.kr:10006/realms/KITe/protocol/openid-connect/certs
+          jwk-set-uri: https://gutsandgun.kro.kr:10006/realms/KITe/protocol/openid-connect/certs
 
 keycloak:
   realm: KITe
   resource: spring_auth
-  auth-server-url: https://yjhome.kro.kr:10006
+  auth-server-url: https://gutsandgun.kro.kr:10006
   bearer-only: true
   ssl-required: external
   credentials:
-    secret: yt7mnKRgBWwwr8jYzoiaV0PHRm7hJWm0
+    secret: 0U1wVFCEHbzhhyPzWvDkQUnVfZFht7VE
 
 logging:
   level:
