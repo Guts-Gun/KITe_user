@@ -22,29 +22,49 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-
+    //all
     @GetMapping("")
-    public List<ResponseAddressWithGroupDto> getAddressList(@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getAddressList(){
         Long userId = 1L;
-        return (addressService.getUserAddressList(userId,pageable));
+        return (addressService.getUserAddressList(userId));
     }
 
     @GetMapping("/filter")
-    public List<ResponseAddressWithGroupDto> getAddressListWithNameFilter(@RequestParam HashMap<String,String> paramMap,@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getAddressListWithFilter(@RequestParam HashMap<String,String> paramMap){
         Long userId = 1L;
         if(paramMap.get("name")!=null){
-            return addressService.getUserAddressListFilterName(userId,paramMap.get("name"),pageable);
+            return addressService.getUserAddressListFilterName(userId,paramMap.get("name"));
         }
         if(paramMap.get("phone")!=null){
-            return addressService.getUserAddressListFilterPhone(userId,paramMap.get("phone"),pageable);
+            return addressService.getUserAddressListFilterPhone(userId,paramMap.get("phone"));
         }
         if(paramMap.get("email")!=null){
-           return addressService.getUserAddressListFilterEmail(userId,paramMap.get("email"),pageable);
+            return addressService.getUserAddressListFilterEmail(userId,paramMap.get("email"));
         }
         return null;
     }
 
+    //page
+    @GetMapping("/page")
+    public List<ResponseAddressWithGroupDto> getAddressPage(@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
+        Long userId = 1L;
+        return (addressService.getUserAddressPage(userId,pageable));
+    }
 
+    @GetMapping("/page/filter")
+    public List<ResponseAddressWithGroupDto> getAddressPageWithFilter(@RequestParam HashMap<String,String> paramMap,@PageableDefault(size=5, sort="id", direction = Sort.Direction.ASC) Pageable pageable){
+        Long userId = 1L;
+        if(paramMap.get("name")!=null){
+            return addressService.getUserAddressPageFilterName(userId,paramMap.get("name"),pageable);
+        }
+        if(paramMap.get("phone")!=null){
+            return addressService.getUserAddressPageFilterPhone(userId,paramMap.get("phone"),pageable);
+        }
+        if(paramMap.get("email")!=null){
+           return addressService.getUserAddressPageFilterEmail(userId,paramMap.get("email"),pageable);
+        }
+        return null;
+    }
 
 
     @PostMapping("")

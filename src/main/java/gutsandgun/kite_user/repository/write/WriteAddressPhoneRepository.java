@@ -12,5 +12,7 @@ import java.util.Optional;
 public interface WriteAddressPhoneRepository extends JpaRepository<AddressPhone, Long>, JpaSpecificationExecutor<AddressPhone> {
     Optional<AddressPhone> findByUserAddressId(Long userAddressId);
     Optional<AddressPhone> findByUserAddressIdAndPhone(Long userAddressId, String phone);
+
+    List<AddressPhone> findByPhoneContaining(String phone);
     List<AddressPhone> findByPhoneContaining(String phone, Pageable pageable);
 }

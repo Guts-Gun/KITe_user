@@ -10,8 +10,11 @@ import java.util.Optional;
 
 public interface WriteUserAddressRepository extends JpaRepository<UserAddress, Long>, JpaSpecificationExecutor<UserAddress> {
     Optional<UserAddress> findByIdAndUserId(Long id, Long userId);
+
+    List<UserAddress> findByUserId(Long userId);
     List<UserAddress> findByUserId(Long userId,Pageable pageable);
 
+    List<UserAddress> findByUserIdAndNameContaining(Long userId,String name);
     List<UserAddress> findByUserIdAndNameContaining(Long userId,String name,Pageable pageable);
 
     List<UserAddress> findByUserIdAndName(Long userId, String name);

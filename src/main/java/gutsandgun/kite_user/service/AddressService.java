@@ -36,19 +36,46 @@ public class AddressService {
     private final WriteUserPhoneRepository wUserPhoneRepository;
 
 
-    public List<ResponseAddressWithGroupDto> getUserAddressList(Long userId, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressList(Long userId){
+        List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId);
+        return getResponseAddress(userAddressList);
+    }
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(Long userId, String name){
+        List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name);
+        return getResponseAddress(userAddressList);
+    }
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(Long userId, String phone){
+        List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone);
+        List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
+                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
+        )).collect(Collectors.toList());
+
+        return getResponseAddress(userAddressList);
+    }
+
+    public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(Long userId, String email){
+        List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email);
+        List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
+                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
+        )).collect(Collectors.toList());
+
+        return getResponseAddress(userAddressList);
+    }
+
+
+    public List<ResponseAddressWithGroupDto> getUserAddressPage(Long userId, Pageable pageable){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId,pageable);
         return getResponseAddress(userAddressList);
     }
 
-
-
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(Long userId,String name, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterName(Long userId, String name, Pageable pageable){
         List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name,pageable);
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(Long userId,String phone, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterPhone(Long userId, String phone, Pageable pageable){
         List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone,pageable);
         List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
             wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
@@ -57,7 +84,7 @@ public class AddressService {
         return getResponseAddress(userAddressList);
     }
 
-    public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(Long userId,String email, Pageable pageable){
+    public List<ResponseAddressWithGroupDto> getUserAddressPageFilterEmail(Long userId, String email, Pageable pageable){
         List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email,pageable);
         List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
                 wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
