@@ -92,7 +92,7 @@ public class AddressService {
                     if(checkEmail.isPresent()){
                         email = checkEmail.get().getEmail();
                     }
-                    ResponseAddressDto responseAddressDto = new ResponseAddressDto(id,name,phone,email);
+                    ResponseAddressDto responseAddressDto = new ResponseAddressDto(id,name,email,phone);
                     return responseAddressDto;
                 }
                 return null;
