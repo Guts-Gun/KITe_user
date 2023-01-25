@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -25,11 +26,15 @@ public class UserAddress extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "fk_user_id")
+    @Comment("주소록 주인 user id")
     private Long userId;
 
+    @Comment("주소록 저장된 이름")
     private String name;
 
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
+
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)

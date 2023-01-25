@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -25,10 +26,13 @@ public class AddressEmail extends BaseTimeEntity{
     private Long id;
 
     @Column(name = "fk_user_address_id")
+    @Comment("주소록 ID")
     private Long userAddressId;
 
+    @Comment("이메일")
     private String email;
 
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     @Comment("생성자")

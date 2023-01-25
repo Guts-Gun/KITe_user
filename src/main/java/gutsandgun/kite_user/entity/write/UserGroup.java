@@ -2,6 +2,7 @@ package gutsandgun.kite_user.entity.write;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -21,13 +22,18 @@ public class UserGroup extends BaseTimeEntity{
     private Long id;
 
     @Column(name = "fk_user_id")
+    @Comment("user id")
     private Long userId;
 
+    @Comment("그룹 이름")
     private String groupName;
 
+    @Comment("그룹 설명")
     private String description;
 
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
+
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)
