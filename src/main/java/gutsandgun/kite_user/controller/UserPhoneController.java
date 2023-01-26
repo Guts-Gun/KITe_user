@@ -17,25 +17,25 @@ public class UserPhoneController {
 
     @GetMapping("")
     List<UserPhoneDto> readUserPhone(){
-        String userId = "solibtest";
+        String userId = "solbitest";
         return userService.readUserPhone(userId);
     }
 
     @PostMapping("")
     Long createUserPhone(@RequestBody UserPhoneDto userPhoneDto){
-        String userId = "solibtest";
+        String userId = "solbitest";
         return userService.createUserPhone(userId,userPhoneDto);
     }
 
     @PutMapping("")
     Long updateUserPhone(@RequestBody UserPhoneDto userPhoneDto){
-        String userId = "solibtest";
+        String userId = "solbitest";
         return userService.updateUserPhone(userId,userPhoneDto);
     }
 
     @DeleteMapping("")
     List<Long> deleteUserPhone(@RequestBody List<Long>userPhoneIdList){
-        String userId = "solibtest";
+        String userId = "solbitest";
         return userService.deleteUserPhoneList(userId,userPhoneIdList);
     }
 
