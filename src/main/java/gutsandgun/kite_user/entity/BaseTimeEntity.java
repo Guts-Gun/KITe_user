@@ -1,4 +1,4 @@
-package gutsandgun.kite_sendmanager.entity;
+package gutsandgun.kite_user.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
