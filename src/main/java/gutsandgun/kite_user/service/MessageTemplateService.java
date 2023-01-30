@@ -10,9 +10,13 @@ import java.util.List;
 
 public interface MessageTemplateService {
 
-    Page<MessageTemplateDto> getUserMessageTemplateList(String userId, PageRequestDTO requestDTO);
+    Page<MessageTemplateDto> getUserMessageTemplateList(String userId, PageRequestDTO requestDTO);  // 메시지 템플릿 페이징 리스트 조회
 
-    Long insertMessageTemplate(String userId, MessageTemplateDto messageTemplateDto);
+    Long insertMessageTemplate(String userId, MessageTemplateDto messageTemplateDto); // 메시지 템플릿 추가
+
+    void deleteMessageTemplate(String userId, List<Long> messageTemplateList); // 메시지 템플릿 일괄 삭제
+
+
 
     default MessageTemplate dtoToEntity(MessageTemplateDto dto, String userId) {
         MessageTemplate messageTemplate = MessageTemplate.builder()
