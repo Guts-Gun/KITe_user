@@ -1,6 +1,6 @@
 package gutsandgun.kite_user.entity.write;
 
-import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
+import gutsandgun.kite_user.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

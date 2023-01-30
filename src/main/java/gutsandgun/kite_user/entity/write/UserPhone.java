@@ -6,7 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
+import gutsandgun.kite_user.entity.BaseTimeEntity;
 
 @Entity
 @Getter

@@ -10,7 +10,6 @@ import gutsandgun.kite_user.entity.write.UserGroup;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
 
-import gutsandgun.kite_sendmanager.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class GroupService extends BaseTimeEntity {
+public class GroupService {
     private final AddressService addressService;
 
     //group
