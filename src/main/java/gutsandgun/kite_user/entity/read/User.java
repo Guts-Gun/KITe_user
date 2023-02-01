@@ -15,7 +15,7 @@ import org.hibernate.annotations.Where;
 @Table(name="user")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name="id")
     private String id;
 
