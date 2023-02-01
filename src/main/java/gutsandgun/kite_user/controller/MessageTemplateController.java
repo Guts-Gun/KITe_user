@@ -32,7 +32,7 @@ public class MessageTemplateController {
      * @author solbiko
      * @param principal 로그인 객체
      * @param pageRequestDTO 페이징 객체
-     * @return List<MessageTemplateDto> 템플릿 리스스
+     * @return messageTemplateDtoList 템플릿 리스트
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/list")
@@ -49,7 +49,7 @@ public class MessageTemplateController {
      * @author solbiko
      * @param principal 로그인 객체
      * @param messageTemplateDto 메시지 템플릿 정보
-     * @return List<MessageTemplateDto> 템플릿 리스스
+     * @return messageTemplateId 생성 템플릿 번호
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/create")
@@ -65,7 +65,7 @@ public class MessageTemplateController {
      * @author solbiko
      * @param principal 로그인 객체
      * @param messageTemplateList 삭제할 메시지 템플릿 아이디 리스트
-     * @return List<MessageTemplateDto> 템플릿 리스스
+     * @return string 성공 메시지
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/delete")
