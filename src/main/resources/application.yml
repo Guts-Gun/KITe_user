@@ -43,7 +43,7 @@ keycloak:
   bearer-only: true
   ssl-required: external
   credentials:
-    secret: 0U1wVFCEHbzhhyPzWvDkQUnVfZFht7VE
+    secret: rxxJSm63zgPqob8ShKv4t3GyAu0wrUXo
 
 logging:
   level:
