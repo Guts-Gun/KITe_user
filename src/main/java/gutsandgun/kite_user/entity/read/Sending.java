@@ -66,6 +66,4 @@ public class Sending {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Column(name = "mod_dt")
     private LocalDateTime modDt;
-
-    private Boolean isDeleted = false;
 }
