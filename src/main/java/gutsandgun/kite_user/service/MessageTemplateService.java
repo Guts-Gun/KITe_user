@@ -24,6 +24,7 @@ public interface MessageTemplateService {
                 .content(dto.getContent())
                 .userId(userId)
                 .regId(userId)
+                .isDeleted(false)
                 .build();
         return messageTemplate;
     }

@@ -2,9 +2,9 @@ package gutsandgun.kite_user.service;
 
 import gutsandgun.kite_user.dto.PageRequestDTO;
 import gutsandgun.kite_user.dto.messageTemplate.MessageTemplateDto;
-import gutsandgun.kite_user.repository.read.ReadMessageTemplateRepository;
 import gutsandgun.kite_user.entity.read.MessageTemplate;
-import gutsandgun.kite_user.repository.write.MessageTemplateRepository;
+import gutsandgun.kite_user.repository.read.ReadMessageTemplateRepository;
+import gutsandgun.kite_user.repository.write.WriteMessageTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,10 @@ import java.util.List;
 public class MessageTemplateServiceImpl implements MessageTemplateService {
 
     @Autowired
-    private final MessageTemplateRepository writeMessageTemplateRepository;
+    private final WriteMessageTemplateRepository writeMessageTemplateRepository;
 
     @Autowired
     private final ReadMessageTemplateRepository readMessageTemplateRepository;
-
 
     @Autowired
     private final ModelMapper mapper;
