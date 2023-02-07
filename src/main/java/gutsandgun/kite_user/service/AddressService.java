@@ -1,21 +1,26 @@
 package gutsandgun.kite_user.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gutsandgun.kite_user.dto.addr.*;
 import gutsandgun.kite_user.entity.write.*;
 import gutsandgun.kite_user.repository.read.*;
 import gutsandgun.kite_user.repository.write.*;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class AddressService {
+    ObjectMapper mapper = new ObjectMapper();
+
     //group
     private final ReadUserGroupRepository readUserGroupRepository;
     private final WriteUserGroupRepository wUserGroupRepository;
@@ -37,60 +42,50 @@ public class AddressService {
 
 
     public List<ResponseAddressWithGroupDto> getUserAddressList(String userId){
-        List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId);
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserId(userId).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(String userId, String name){
-        List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name);
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(String userId, String phone){
-        List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone);
-        List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
-                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
-        )).collect(Collectors.toList());
-
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(String userId, String email){
-        List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email);
-        List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
-                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
-        )).collect(Collectors.toList());
-
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
 
     public List<ResponseAddressWithGroupDto> getUserAddressPage(String userId, Pageable pageable){
-        List<UserAddress> userAddressList = wUserAddressRepository.findByUserId(userId,pageable);
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserId(userId,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterName(String userId, String name, Pageable pageable){
-        List<UserAddress> userAddressList = wUserAddressRepository.findByUserIdAndNameContaining(userId,name,pageable);
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterPhone(String userId, String phone, Pageable pageable){
-        List<AddressPhone> addressPhoneList = wAddressPhoneRepository.findByPhoneContaining(phone,pageable);
-        List<UserAddress> userAddressList = addressPhoneList.stream().map(d->(
-            wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
-        )).collect(Collectors.toList());
-
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterEmail(String userId, String email, Pageable pageable){
-        List<AddressEmail> addressEmailList = wAddressEmailRepository.findByEmailContaining(email,pageable);
-        List<UserAddress> userAddressList = addressEmailList.stream().map(d->(
-                wUserAddressRepository.findByIdAndUserId(d.getUserAddressId(),userId).get()
-        )).collect(Collectors.toList());
-
-        return getResponseAddress(userAddressList);
+        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        System.out.println(responseAddressDtoList.size());
+        return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
         private List<ResponseAddressWithGroupDto> getResponseAddress(List<UserAddress> userAddressList) {

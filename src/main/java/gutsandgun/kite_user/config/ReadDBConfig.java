@@ -34,6 +34,7 @@ public class ReadDBConfig {
     @Autowired
     private HibernateProperties hibernateProperties;
 
+
     @Bean
     public LocalContainerEntityManagerFactoryBean ReadEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -46,11 +47,12 @@ public class ReadDBConfig {
         em.setJpaVendorAdapter(vendorAdapter);
 
         //Hibernate 설정
-        Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
-        System.out.println(properties);
-        em.setJpaPropertyMap(properties);
+        //Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
+        //System.out.println(properties);
+        //em.setJpaPropertyMap(properties);
         return em;
     }
+
 
     @Bean
     @ConfigurationProperties(prefix="spring.readdb")
