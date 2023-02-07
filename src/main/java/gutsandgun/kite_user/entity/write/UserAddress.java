@@ -1,5 +1,6 @@
 package gutsandgun.kite_user.entity.write;
 
+import gutsandgun.kite_user.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +10,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import gutsandgun.kite_user.entity.BaseTimeEntity;
-
 
 @Entity
 @Getter
@@ -35,7 +34,6 @@ public class UserAddress extends BaseTimeEntity {
 
     @ColumnDefault("false")
     private Boolean isDeleted = false;
-
 
     @Comment("생성자")
     @Column(name = "reg_id", nullable = false, length = 20)

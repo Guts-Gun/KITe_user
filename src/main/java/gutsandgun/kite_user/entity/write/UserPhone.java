@@ -1,13 +1,16 @@
 package gutsandgun.kite_user.entity.write;
 
+import gutsandgun.kite_user.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import gutsandgun.kite_user.entity.BaseTimeEntity;
 
+/**
+ * 발신 전화번호 저장 테이블
+ */
 @Entity
 @Getter
 @Setter
@@ -18,31 +21,30 @@ import gutsandgun.kite_user.entity.BaseTimeEntity;
 @ToString
 public class UserPhone extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @Column(name = "fk_user_id")
-    @Comment("user id")
-    private String userId;
+	@Column(name = "fk_user_id")
+	@Comment("user id")
+	private String userId;
 
-    @Comment("발신 이름")
-    private String name;
-    @Comment("발신 전화번호")
-    private String phone;
+	@Comment("발신 이름")
+	private String name;
+	@Comment("발신 전화번호")
+	private String phone;
 
-    @ColumnDefault("false")
-    private Boolean isDeleted = false;
+	@ColumnDefault("false")
+	private Boolean isDeleted = false;
 
-
-    @Comment("생성자")
-    @Column(name = "reg_id", nullable = false, length = 20)
-    private String regId;
+	@Comment("생성자")
+	@Column(name = "reg_id", nullable = false, length = 20)
+	private String regId;
 
     @Comment("수정자")
     @Column(name = "mod_id", length = 20)
-    private String ModId;
+    private String modId;
 
     @Builder
     public UserPhone(String userId, String name,String phone){
