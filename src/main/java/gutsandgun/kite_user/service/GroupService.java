@@ -138,7 +138,7 @@ public class GroupService {
         if(check.isPresent()){
             //그룹 내 전화번호 추가
             addressList.stream().forEach(d->{
-                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(d);
+                Optional<UserAddress> checkAddress = wUserAddressRepository.findByIdAndUserId(d,userId);
                 if(checkAddress.isPresent()){
                     Optional<AddressGroup> checkAddressGroup = wAddressGroupRepository.findByUserAddressIdAndUserGroupId(d,groupId);
                     if(!checkAddressGroup.isPresent()){
