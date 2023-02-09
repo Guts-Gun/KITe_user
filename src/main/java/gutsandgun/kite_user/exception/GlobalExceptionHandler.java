@@ -14,7 +14,6 @@ public class GlobalExceptionHandler {
 
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(errorCode.getStatus())
                 .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build();

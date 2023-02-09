@@ -1,10 +1,7 @@
 package gutsandgun.kite_user.entity.write;
 
 import gutsandgun.kite_user.entity.BaseTimeEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
@@ -23,6 +20,7 @@ import org.hibernate.annotations.Where;
 public class MessageTemplate extends BaseTimeEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
