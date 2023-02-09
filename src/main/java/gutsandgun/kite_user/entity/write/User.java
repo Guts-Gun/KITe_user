@@ -17,7 +17,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE user SET is_deleted=true WHERE id = ?")
 @Table(name="user")
-public class User {
+public class User extends BaseTimeEntity{
 
     /**
      * String user id generate from keycloak
