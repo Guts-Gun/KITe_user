@@ -17,7 +17,7 @@ public class UserPhoneDto {
     private String phone;
 
     @Builder
-    public UserPhoneDto(UserPhone userPhone){
+    public UserPhoneDto(gutsandgun.kite_user.entity.read.UserPhone userPhone){
         this.id = userPhone.getId();
         this.userId = userPhone.getUserId();
         this.name = userPhone.getName();

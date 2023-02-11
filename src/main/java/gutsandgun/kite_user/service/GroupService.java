@@ -24,15 +24,17 @@ public class GroupService {
     private final AddressService addressService;
 
     //group
-    private final ReadUserGroupRepository readUserGroupRepository;
+    private final ReadUserGroupRepository rUserGroupRepository;
     private final WriteUserGroupRepository wUserGroupRepository;
+
+    private final ReadAddressGroupRepository rAddressGroupRepository;
     private final WriteAddressGroupRepository wAddressGroupRepository;
     private final WriteUserAddressRepository wUserAddressRepository;
 
 
     public List<ResponseGroupDto> getUserGroupList(String userId){
-        return wUserGroupRepository.findByUserId(userId).stream().map(m -> {
-            Long addressCount = wAddressGroupRepository.countByUserGroupId( m.getId());
+        return rUserGroupRepository.findByUserId(userId).stream().map(m -> {
+            Long addressCount = rAddressGroupRepository.countByUserGroupId(m.getId());
             return new ResponseGroupDto(m,addressCount);
         }).collect(Collectors.toList());
 
@@ -41,11 +43,11 @@ public class GroupService {
     }
     public ResponseGroupDetailDto getUserGroupById(String userId, Long groupId){
         //그룹 정보
-        Optional<UserGroup> check = wUserGroupRepository.findByIdAndUserId(groupId,userId);
+        Optional<gutsandgun.kite_user.entity.read.UserGroup> check = rUserGroupRepository.findByIdAndUserId(groupId,userId);
         if(check.isPresent()){
             //그룹 내 전화번호 정보
-            UserGroup userGroup = check.get();
-            List<AddressGroup> addressGroup = wAddressGroupRepository.findByUserGroupId(userGroup.getId());
+            gutsandgun.kite_user.entity.read.UserGroup userGroup = check.get();
+            List<gutsandgun.kite_user.entity.read.AddressGroup> addressGroup = rAddressGroupRepository.findByUserGroupId(userGroup.getId());
             List<ResponseAddressDto> addressList = addressGroup.stream().map(d -> (addressService.getResponseAddressDto(d.getUserAddressId()))).collect(Collectors.toList());
             return(new ResponseGroupDetailDto(userGroup,addressList));
         }

@@ -22,92 +22,87 @@ public class AddressService {
     ObjectMapper mapper = new ObjectMapper();
 
     //group
-    private final ReadUserGroupRepository readUserGroupRepository;
+    private final ReadUserGroupRepository rUserGroupRepository;
     private final WriteUserGroupRepository wUserGroupRepository;
 
     //group-adress
-    private final ReadAddressGroupRepository readAddressGroupRepository;
+    private final ReadAddressGroupRepository rAddressGroupRepository;
     private final WriteAddressGroupRepository wAddressGroupRepository;
 
     //address
-    private final ReadUserAddressRepository readUserAddressRepository;
+    private final ReadUserAddressRepository rUserAddressRepository;
     private final WriteUserAddressRepository wUserAddressRepository;
 
-    private final ReadAddressPhoneRepository readAddressPhoneRepository;
+    private final ReadAddressPhoneRepository rAddressPhoneRepository;
     private final WriteAddressPhoneRepository wAddressPhoneRepository;
 
-    private final ReadAddressEmailRepository readAddressEmailRepository;
+    private final ReadAddressEmailRepository rAddressEmailRepository;
     private final WriteAddressEmailRepository wAddressEmailRepository;
-    private final WriteUserPhoneRepository wUserPhoneRepository;
+    private final WriteUserPhoneRepository wPhoneRepository;
 
 
     public List<ResponseAddressWithGroupDto> getUserAddressList(String userId){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserId(userId).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserId(userId).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterName(String userId, String name){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterPhone(String userId, String phone){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressListFilterEmail(String userId, String email){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
 
     public List<ResponseAddressWithGroupDto> getUserAddressPage(String userId, Pageable pageable){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserId(userId,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserId(userId,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterName(String userId, String name, Pageable pageable){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndNameContaining(userId,name,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterPhone(String userId, String phone, Pageable pageable){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndPhoneContaining(userId,phone,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
     public List<ResponseAddressWithGroupDto> getUserAddressPageFilterEmail(String userId, String email, Pageable pageable){
-        List<ResponseAddressDto> responseAddressDtoList = wUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
+        List<ResponseAddressDto> responseAddressDtoList = rUserAddressRepository.findUserAddressByUserIdAndEmailContaining(userId,email,pageable).stream().map((d)->(mapper.convertValue(d,ResponseAddressDto.class))).collect(Collectors.toList());
         System.out.println(responseAddressDtoList.size());
         return responseAddressDtoList.stream().map(d -> (getResponseAddressDetailDto(d.getUserAddressId(), d))).collect(Collectors.toList());
     }
 
-        private List<ResponseAddressWithGroupDto> getResponseAddress(List<UserAddress> userAddressList) {
-            return userAddressList.stream().map(d -> {
-                ResponseAddressDto responseAddressDto = getResponseAddressDto(d.getId());
-                return getResponseAddressDetailDto(d.getId(), responseAddressDto);
-            }).collect(Collectors.toList());
-        }
+
 
             public ResponseAddressDto getResponseAddressDto(Long addressId){
-                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
+                Optional<gutsandgun.kite_user.entity.read.UserAddress> checkAddress = rUserAddressRepository.findById(addressId);
                 if(checkAddress.isPresent()){
                     //이름/id
-                    UserAddress userAddress = checkAddress.get();
+                    gutsandgun.kite_user.entity.read.UserAddress userAddress = checkAddress.get();
                     Long id = userAddress.getId();
                     String name = userAddress.getName();
 
                     //email/phone
                     String phone = null;
                     String email = null;
-                    Optional<AddressPhone> checkPhone = wAddressPhoneRepository.findByUserAddressId(id);
-                    Optional<AddressEmail> checkEmail = wAddressEmailRepository.findByUserAddressId(id);
+                    Optional<AddressPhone> checkPhone = rAddressPhoneRepository.findByUserAddressId(id);
+                    Optional<AddressEmail> checkEmail = rAddressEmailRepository.findByUserAddressId(id);
                     if(checkPhone.isPresent()){
                         phone = checkPhone.get().getPhone();
                     }
@@ -123,14 +118,14 @@ public class AddressService {
             public ResponseAddressWithGroupDto getResponseAddressDetailDto(Long addressId, ResponseAddressDto responseAddressDto){
                 //group
                 List<ResponseBelongGroupDto> responseBelongGroupDtoList = new ArrayList<>();
-                Optional<UserAddress> checkAddress = wUserAddressRepository.findById(addressId);
+                Optional<gutsandgun.kite_user.entity.read.UserAddress> checkAddress = rUserAddressRepository.findById(addressId);
                 if(checkAddress.isPresent()) {
-                    UserAddress userAddress = checkAddress.get();
-                    List<AddressGroup> addressGroupList = wAddressGroupRepository.findByUserAddressId(userAddress.getId());
+                    gutsandgun.kite_user.entity.read.UserAddress userAddress = checkAddress.get();
+                    List<gutsandgun.kite_user.entity.read.AddressGroup> addressGroupList = rAddressGroupRepository.findByUserAddressId(userAddress.getId());
                     addressGroupList.stream().forEach(d->{
-                        Optional<UserGroup> checkUserGroup = wUserGroupRepository.findById(d.getUserGroupId());
+                        Optional<gutsandgun.kite_user.entity.read.UserGroup> checkUserGroup = rUserGroupRepository.findById(d.getUserGroupId());
                         if(checkUserGroup.isPresent()){
-                            UserGroup userGroup = checkUserGroup.get();
+                            gutsandgun.kite_user.entity.read.UserGroup userGroup = checkUserGroup.get();
                             ResponseBelongGroupDto responseBelongGroupDto = new ResponseBelongGroupDto(userGroup.getId(),userGroup.getGroupName());
                             responseBelongGroupDtoList.add(responseBelongGroupDto);
                         }

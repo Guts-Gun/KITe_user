@@ -18,13 +18,15 @@ public class UserEmailDto{
     private String name;
     private String email;
 
+
     @Builder
-    public UserEmailDto(UserEmail userEmail){
+    public UserEmailDto(gutsandgun.kite_user.entity.read.UserEmail userEmail){
         this.id = userEmail.getId();
         this.userId = userEmail.getUserId();
         this.name = userEmail.getName();
         this.email = userEmail.getEmail();
     }
+
 
     public UserEmail toEntity() {return new UserEmail(this.userId,this.name,this.email);}
 }
