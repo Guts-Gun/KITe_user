@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,6 +32,17 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
 
 
     @Override
+    public List<MessageTemplateDto> getAllUserMessageTemplateList(String userId) {
+
+        List<MessageTemplate> messageTemplateList = readMessageTemplateRepository.findByUserId(userId);
+        List<MessageTemplateDto> messageTemplateDtoList = new ArrayList<>();
+        messageTemplateList.forEach(messageTemplate -> {
+            messageTemplateDtoList.add(mapper.map(messageTemplate, MessageTemplateDto.class));
+        });
+        return messageTemplateDtoList;
+    }
+
+    @Override
     public Page<MessageTemplateDto> getUserMessageTemplateList(String userId, PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("regDt").descending());
 
@@ -41,7 +53,9 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
 
     @Override
     public Long insertMessageTemplate(String userId, MessageTemplateDto messageTemplateDto){
-        gutsandgun.kite_user.entity.write.MessageTemplate messageTemplate = writeMessageTemplateRepository.save(dtoToEntity(messageTemplateDto,userId));
+        messageTemplateDto.setUserId(userId);
+        messageTemplateDto.setRegId(userId);
+        gutsandgun.kite_user.entity.write.MessageTemplate messageTemplate = writeMessageTemplateRepository.save(mapper.map(messageTemplateDto, gutsandgun.kite_user.entity.write.MessageTemplate.class));
         return messageTemplate.getId();
     }
 
