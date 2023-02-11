@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface WriteUserPhoneRepository extends JpaRepository<UserPhone, Long>, JpaSpecificationExecutor<UserPhone> {
     Long countByUserId(String userId);
-    List<UserPhone> findByUserId(String userId);
 
     Optional<UserPhone> findByUserIdAndNameOrPhone(String userId, String name, String phone);
 }

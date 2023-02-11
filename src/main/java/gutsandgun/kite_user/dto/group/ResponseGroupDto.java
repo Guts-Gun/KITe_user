@@ -1,7 +1,7 @@
 package gutsandgun.kite_user.dto.group;
 
 import gutsandgun.kite_user.dto.addr.ResponseAddressDto;
-import gutsandgun.kite_user.entity.write.UserGroup;
+import gutsandgun.kite_user.entity.read.UserGroup;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

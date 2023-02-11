@@ -4,6 +4,8 @@ import gutsandgun.kite_user.dto.user.UserEmailDto;
 import gutsandgun.kite_user.dto.user.UserPhoneDto;
 import gutsandgun.kite_user.entity.write.UserEmail;
 import gutsandgun.kite_user.entity.write.UserPhone;
+import gutsandgun.kite_user.repository.read.ReadUserEmailRepository;
+import gutsandgun.kite_user.repository.read.ReadUserPhoneRepository;
 import gutsandgun.kite_user.repository.write.WriteUserEmailRepository;
 import gutsandgun.kite_user.repository.write.WriteUserPhoneRepository;
 import org.slf4j.Logger;
@@ -23,9 +25,13 @@ public class UserService implements UserServiceInterface {
     //phone
     @Autowired
     WriteUserPhoneRepository wUserPhoneRepository;
+
+    @Autowired
+    ReadUserPhoneRepository rUserPhoneRepository;
+
     @Override
     public List<UserPhoneDto> readUserPhone(String userId) {
-        return wUserPhoneRepository.findByUserId(userId).stream().map(m->new UserPhoneDto(m)).collect(Collectors.toList());
+        return rUserPhoneRepository.findByUserId(userId).stream().map(m->new UserPhoneDto(m)).collect(Collectors.toList());
     }
     @Override
     public Long createUserPhone(String userId, UserPhoneDto userPhoneDto) {
@@ -79,9 +85,11 @@ public class UserService implements UserServiceInterface {
     //email
     @Autowired
     WriteUserEmailRepository wUserEmailRepository;
+    @Autowired
+    ReadUserEmailRepository rUserEmailRepository;
     @Override
     public List<UserEmailDto> readUserEmail(String userId) {
-        return wUserEmailRepository.findByUserId(userId).stream().map(m->new UserEmailDto(m)).collect(Collectors.toList());
+        return rUserEmailRepository.findByUserId(userId).stream().map(m->new UserEmailDto(m)).collect(Collectors.toList());
     }
     @Override
     public Long createUserEmail(String userId, UserEmailDto userEmailDto) {

@@ -1,8 +1,7 @@
 package gutsandgun.kite_user.dto.group;
 
 import gutsandgun.kite_user.dto.addr.ResponseAddressDto;
-import gutsandgun.kite_user.dto.addr.ResponseAddressWithGroupDto;
-import gutsandgun.kite_user.entity.write.UserGroup;
+import gutsandgun.kite_user.entity.read.UserGroup;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +23,7 @@ public class ResponseGroupDetailDto {
 
     private Long addressCount;
     private List<ResponseAddressDto> addressList;
+
 
     public ResponseGroupDetailDto(UserGroup userGroup, List<ResponseAddressDto> addressList) {
         this.id = userGroup.getId();

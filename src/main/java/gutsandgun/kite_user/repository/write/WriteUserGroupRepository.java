@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WriteUserGroupRepository extends JpaRepository<UserGroup, Long>, JpaSpecificationExecutor<UserGroup> {
-    List<UserGroup> findByUserId(String userId);
     Optional<UserGroup> findByUserIdAndGroupName(String userId, String name);
     // groupId / userId로 찾기
     Optional<UserGroup> findByIdAndUserId(Long id, String userId);
