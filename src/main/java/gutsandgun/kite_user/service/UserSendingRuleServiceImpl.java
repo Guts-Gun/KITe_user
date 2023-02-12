@@ -48,6 +48,8 @@ public class UserSendingRuleServiceImpl implements UserSendingRuleService {
     @Override
     public void upsertUserSendingRule(String userId, List<UserSendingRuleDto> userSendingRuleDtoList) {
         userSendingRuleDtoList.forEach(userSendingRuleDto -> {
+            userSendingRuleDto.setUserId(userId);
+            userSendingRuleDto.setRegId(userId);
             writeUserSendingRuleRepository.save(mapper.map(userSendingRuleDto, gutsandgun.kite_user.entity.write.UserSendingRule.class));
         });
     }
