@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface ReadAddressEmailRepository extends JpaRepository<AddressEmail, Long> {
-    Optional<gutsandgun.kite_user.entity.write.AddressEmail> findByUserAddressId(Long userAddressId);
-    Optional<gutsandgun.kite_user.entity.write.AddressEmail> findByUserAddressIdAndEmail(Long userAddressId, String email);
+    Optional<gutsandgun.kite_user.entity.read.AddressEmail> findByUserAddressId(Long userAddressId);
+    Optional<gutsandgun.kite_user.entity.read.AddressEmail> findByUserAddressIdAndEmail(Long userAddressId, String email);
 }

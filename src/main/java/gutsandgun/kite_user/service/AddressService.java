@@ -101,8 +101,8 @@ public class AddressService {
                     //email/phone
                     String phone = null;
                     String email = null;
-                    Optional<AddressPhone> checkPhone = rAddressPhoneRepository.findByUserAddressId(id);
-                    Optional<AddressEmail> checkEmail = rAddressEmailRepository.findByUserAddressId(id);
+                    Optional<gutsandgun.kite_user.entity.read.AddressPhone> checkPhone = rAddressPhoneRepository.findByUserAddressId(id);
+                    Optional<gutsandgun.kite_user.entity.read.AddressEmail> checkEmail = rAddressEmailRepository.findByUserAddressId(id);
                     if(checkPhone.isPresent()){
                         phone = checkPhone.get().getPhone();
                     }

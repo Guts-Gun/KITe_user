@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface ReadAddressPhoneRepository extends JpaRepository<AddressPhone, Long> {
-    Optional<gutsandgun.kite_user.entity.write.AddressPhone> findByUserAddressId(Long userAddressId);
-    Optional<gutsandgun.kite_user.entity.write.AddressPhone> findByUserAddressIdAndPhone(Long userAddressId, String phone);
+    Optional<gutsandgun.kite_user.entity.read.AddressPhone> findByUserAddressId(Long userAddressId);
+    Optional<gutsandgun.kite_user.entity.read.AddressPhone> findByUserAddressIdAndPhone(Long userAddressId, String phone);
 }
