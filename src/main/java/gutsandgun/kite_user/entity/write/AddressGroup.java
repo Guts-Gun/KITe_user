@@ -19,7 +19,11 @@ import org.hibernate.annotations.Where;
 @Setter
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE address_group SET is_deleted=true WHERE id = ?")
-@Table(name="address_group")
+@Table(
+		name="address_group",
+		indexes = {
+		@Index(name = "idx_address_group_user_group_id", columnList = "fk_user_group_id")
+		})
 @NoArgsConstructor
 public class AddressGroup extends BaseTimeEntity{
 

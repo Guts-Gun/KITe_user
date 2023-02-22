@@ -16,7 +16,10 @@ import org.hibernate.annotations.Where;
 @Setter
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql= "UPDATE user_phone SET is_deleted=true WHERE id = ?")
-@Table(name="user_phone")
+@Table(name = "user_phone",
+		indexes = {
+				@Index(name = "idx_user_phone_user_id", columnList = "fk_user_id")
+		})
 @NoArgsConstructor
 @ToString
 public class UserPhone extends BaseTimeEntity {
